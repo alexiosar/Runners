@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import CheckerDivider from "../components/CheckerDivider.astro";
+import Calculator from "../components/Calculator.astro";
+import Calendar from "../components/Calendar.astro";
+import Routes from "../components/Routes.astro";
+import Plans from "../components/Plans.astro";
+import CtaBand from "../components/CtaBand.astro";
+---
+
+<Layout
+  title="PIQUE — Calendario de carreras y herramientas de running en Argentina"
+  description="Calendario de carreras de Argentina, calculadora de ritmos y rutas locales para entrenar."
+>
+  <Hero />
+  <CheckerDivider label="Largada" />
+  <Calculator />
+  <Calendar />
+  <Routes />
+  <Plans />
+  <CtaBand />
+</Layout>

@@ -1,0 +1,86 @@
+---
+---
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="logo" href="/">PIQUE</a>
+    <ul class="nav-links">
+      <li><a href="/#calculadora">Calculadora</a></li>
+      <li><a href="/#calendario">Calendario</a></li>
+      <li><a href="/#rutas">Rutas</a></li>
+      <li><a href="/#planes">Planes</a></li>
+    </ul>
+    <a class="nav-cta" href="/#calendario">Ver carreras</a>
+  </div>
+</nav>
+
+<style>
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: "Oswald", system-ui, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .logo::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-left: 6px;
+    transform: translateY(-8px);
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover {
+    color: var(--ink);
+  }
+  .nav-cta {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 9px 16px;
+    border-radius: 3px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  @media (max-width: 760px) {
+    .nav-links {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,148 @@
+---
+const plans = [
+  { num: "05", plan: "Principiante · 6 semanas" },
+  { num: "10", plan: "Intermedio · 8 semanas" },
+  { num: "21", plan: "Medio maratón · 10 sem." },
+  { num: "42", plan: "Maratón · 14 semanas" },
+];
+---
+
+<section class="block" id="planes" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="block-head reveal">
+      <div>
+        <span class="eyebrow">Para imprimir y seguir</span>
+        <h2 class="display">Planes de entrenamiento</h2>
+      </div>
+    </div>
+    <div class="plans-grid reveal">
+      {
+        plans.map((p) => (
+          <div class="bib">
+            <svg
+              class="pin"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 15 L16 4" />
+              <circle cx="17.6" cy="3.4" r="2.3" />
+              <path d="M5 15a3 3 0 1 0 3 3" />
+            </svg>
+            <div class="num">
+              {p.num}
+              <span class="unit">K</span>
+            </div>
+            <div class="plan-name">{p.plan}</div>
+            <a class="dl" href="#">
+              ↓ Descargar PDF
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .block {
+    padding: 68px 0;
+  }
+  .block-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .block-head h2 {
+    margin: 8px 0 0;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1;
+  }
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 900px) {
+    .plans-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .bib {
+    position: relative;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 30px 20px 20px;
+    text-align: center;
+    box-shadow: 0 8px 18px -6px rgba(28, 26, 23, 0.18);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .plans-grid .bib:nth-child(1) {
+    transform: rotate(-2.5deg);
+  }
+  .plans-grid .bib:nth-child(2) {
+    transform: rotate(1.6deg);
+  }
+  .plans-grid .bib:nth-child(3) {
+    transform: rotate(-1.2deg);
+  }
+  .plans-grid .bib:nth-child(4) {
+    transform: rotate(2.2deg);
+  }
+  .bib:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 0 14px 24px -8px rgba(28, 26, 23, 0.24);
+  }
+  .bib .pin {
+    color: var(--ink-faint);
+    margin-bottom: 2px;
+  }
+  .bib .num {
+    font-family: "Oswald", sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .bib .unit {
+    font-size: 16px;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+  .bib .plan-name {
+    margin-top: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .bib .dl {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink);
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+  .bib .dl:hover {
+    color: var(--accent);
+  }
+</style>

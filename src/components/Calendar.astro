@@ -1,0 +1,172 @@
+---
+const races = [
+  {
+    date: "30 AGO",
+    name: "Media Maratón de Rosario",
+    city: "Rosario, Santa Fe",
+    distances: "10K · 21K",
+    tag: "Ruta",
+  },
+  {
+    date: "13 SEP",
+    name: "10K Costanera Sur",
+    city: "CABA",
+    distances: "10K",
+    tag: "Ruta",
+  },
+  {
+    date: "27 SEP",
+    name: "Trail Sierras de Córdoba",
+    city: "Villa Carlos Paz, Córdoba",
+    distances: "15K · 30K",
+    tag: "Trail",
+  },
+  {
+    date: "11 OCT",
+    name: "21K de Mendoza",
+    city: "Mendoza",
+    distances: "5K · 21K",
+    tag: "Ruta",
+  },
+  {
+    date: "18 OCT",
+    name: "Maratón de Buenos Aires",
+    city: "CABA",
+    distances: "10K · 42K",
+    tag: "Ruta",
+  },
+];
+---
+
+<section class="block" id="calendario">
+  <div class="wrap">
+    <div class="block-head reveal">
+      <div>
+        <span class="eyebrow">Agenda</span>
+        <h2 class="display">Próximas carreras</h2>
+      </div>
+      <a class="see-all" href="/calendario">Ver calendario completo →</a>
+    </div>
+    <div class="cal-table-wrap reveal">
+      <table class="cal">
+        <thead>
+          <tr
+            ><th>Fecha</th><th>Carrera</th><th>Ciudad</th><th>Distancias</th><th
+              >Tipo</th
+            ></tr
+          >
+        </thead>
+        <tbody>
+          {
+            races.map((r) => (
+              <tr>
+                <td class="date mono">{r.date}</td>
+                <td class="race-name">{r.name}</td>
+                <td class="city">{r.city}</td>
+                <td class="mono">{r.distances}</td>
+                <td>
+                  <span class="tag">{r.tag}</span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  .block {
+    padding: 68px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .block-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .block-head h2 {
+    margin: 8px 0 0;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1;
+  }
+  .see-all {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+    white-space: nowrap;
+  }
+  .see-all:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .cal-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg-raised);
+  }
+  table.cal {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
+  }
+  table.cal th {
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  table.cal td {
+    padding: 18px 18px;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+    vertical-align: middle;
+  }
+  table.cal tr:last-child td {
+    border-bottom: none;
+  }
+  table.cal .date {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  table.cal .race-name {
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    text-transform: uppercase;
+  }
+  table.cal .city {
+    color: var(--ink-soft);
+  }
+  .tag {
+    display: inline-block;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1.4px dashed var(--accent-dim);
+    background: transparent;
+    color: var(--accent-dim);
+    font-weight: 600;
+    transform: rotate(-3deg);
+  }
+</style>

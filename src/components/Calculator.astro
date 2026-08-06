@@ -1,0 +1,202 @@
+---
+---
+
+<section class="block" id="calculadora">
+  <div class="wrap">
+    <div class="block-head reveal">
+      <div>
+        <span class="eyebrow">Herramienta</span>
+        <h2 class="display">Calculadora de ritmo</h2>
+      </div>
+    </div>
+    <div class="calc reveal">
+      <div class="field">
+        <label for="distSel">Distancia</label>
+        <select id="distSel">
+          <option value="5">5 km</option>
+          <option value="10" selected>10 km</option>
+          <option value="21.0975">21K · Media maratón</option>
+          <option value="42.195">42K · Maratón</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="timeH">Tiempo objetivo</label>
+        <div class="timeinputs">
+          <input
+            type="number"
+            id="timeH"
+            min="0"
+            max="23"
+            value="0"
+            aria-label="Horas"
+          />
+          <span>:</span>
+          <input
+            type="number"
+            id="timeM"
+            min="0"
+            max="59"
+            value="50"
+            aria-label="Minutos"
+          />
+          <span>:</span>
+          <input
+            type="number"
+            id="timeS"
+            min="0"
+            max="59"
+            value="0"
+            aria-label="Segundos"
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <div class="calc-note" style="margin-top:0;">
+          hs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg
+        </div>
+      </div>
+      <div class="calc-result">
+        <span class="lbl">Tu ritmo</span>
+        <span class="val" id="paceOut">5:00 /km</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const distSel = document.getElementById("distSel") as HTMLSelectElement;
+  const hEl = document.getElementById("timeH") as HTMLInputElement;
+  const mEl = document.getElementById("timeM") as HTMLInputElement;
+  const sEl = document.getElementById("timeS") as HTMLInputElement;
+  const out = document.getElementById("paceOut");
+
+  function calc() {
+    const dist = parseFloat(distSel.value);
+    const h = parseInt(hEl.value, 10) || 0;
+    const m = parseInt(mEl.value, 10) || 0;
+    const s = parseInt(sEl.value, 10) || 0;
+    const totalSec = h * 3600 + m * 60 + s;
+    if (!out) return;
+    if (!dist || totalSec <= 0) {
+      out.textContent = "—";
+      return;
+    }
+    const paceSecPerKm = totalSec / dist;
+    let pm = Math.floor(paceSecPerKm / 60);
+    let ps = Math.round(paceSecPerKm % 60);
+    if (ps === 60) {
+      ps = 0;
+      pm += 1;
+    }
+    out.textContent = `${pm}:${String(ps).padStart(2, "0")} /km`;
+  }
+
+  [distSel, hEl, mEl, sEl].forEach((el) => {
+    el.addEventListener("input", calc);
+    el.addEventListener("change", calc);
+  });
+  calc();
+</script>
+
+<style>
+  .block {
+    padding: 68px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .block-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .block-head h2 {
+    margin: 8px 0 0;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1;
+  }
+  .calc {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) auto;
+    gap: 20px;
+    align-items: end;
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 800px) {
+    .calc {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .field label {
+    display: block;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+  .field select,
+  .field .timeinputs {
+    width: 100%;
+  }
+  .field select {
+    font: inherit;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 16px;
+    padding: 11px 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .timeinputs {
+    display: flex;
+    gap: 6px;
+  }
+  .timeinputs input {
+    font: inherit;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    min-width: 0;
+    padding: 11px 6px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .timeinputs span {
+    align-self: center;
+    color: var(--ink-faint);
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .calc-result {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 5px;
+    padding: 13px 20px;
+    text-align: center;
+    min-width: 148px;
+  }
+  .calc-result .lbl {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+  }
+  .calc-result .val {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent-dim);
+  }
+</style>

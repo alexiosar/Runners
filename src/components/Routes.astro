@@ -1,0 +1,125 @@
+---
+const routes = [
+  { city: "Buenos Aires", spot: "Bosques de Palermo", km: "4.2K", surface: "Asfalto" },
+  { city: "Córdoba", spot: "Parque Sarmiento", km: "3.6K", surface: "Mixto" },
+  { city: "Rosario", spot: "Costanera", km: "6.0K", surface: "Asfalto" },
+  { city: "Mendoza", spot: "Parque Gral. San Martín", km: "7.7K", surface: "Tierra" },
+];
+---
+
+<section class="block" id="rutas">
+  <div class="wrap">
+    <div class="block-head reveal">
+      <div>
+        <span class="eyebrow">Entrená en tu ciudad</span>
+        <h2 class="display">Rutas locales</h2>
+      </div>
+      <a class="see-all" href="/rutas">Ver todas las rutas →</a>
+    </div>
+    <div class="routes-grid reveal">
+      {
+        routes.map((r) => (
+          <div class="route-card">
+            <div>
+              <div class="city">{r.city}</div>
+              <div class="spot">{r.spot}</div>
+            </div>
+            <div class="stats">
+              <span class="km">{r.km}</span>
+              <span class="surface">{r.surface}</span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .block {
+    padding: 68px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .block-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .block-head h2 {
+    margin: 8px 0 0;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1;
+  }
+  .see-all {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+    white-space: nowrap;
+  }
+  .see-all:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .routes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  @media (max-width: 900px) {
+    .routes-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .route-card {
+    background: var(--bg-raised);
+    padding: 26px 22px;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .route-card .city {
+    font-family: "Oswald", sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .route-card .spot {
+    margin-top: 4px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .route-card .stats {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 1px dashed var(--line);
+    padding-top: 12px;
+  }
+  .route-card .km {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .route-card .surface {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>

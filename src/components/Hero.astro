@@ -1,0 +1,219 @@
+---
+const RACE_DATE = "2026-08-30T09:00:00-03:00";
+---
+
+<header class="hero" id="top">
+  <span class="ghost-num" aria-hidden="true">21</span>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Argentina · calendario 2026</span>
+      <h1 class="display">Cada carrera.<br />Cada <span>ritmo.</span></h1>
+      <p class="lede">
+        El calendario de carreras de Argentina, calculadora de ritmos y rutas
+        para entrenar — todo junto, sin pestañas de más.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#calendario">Ver calendario</a>
+        <a class="btn btn-ghost" href="#calculadora">Calcular mi ritmo</a>
+      </div>
+    </div>
+    <div class="next-race">
+      <span class="eyebrow">Próxima carrera</span>
+      <div class="next-race-name">Media Maratón de Rosario</div>
+      <div class="next-race-meta">21K · Rosario, Santa Fe</div>
+      <div class="countdown mono" id="countdown" data-target={RACE_DATE}>
+        <div><span class="num" id="cd-days">--</span><span class="lbl"
+            >Días</span
+          ></div>
+        <div><span class="num" id="cd-hours">--</span><span class="lbl"
+            >Horas</span
+          ></div>
+        <div><span class="num" id="cd-min">--</span><span class="lbl"
+            >Min</span
+          ></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const el = document.getElementById("countdown");
+  if (el) {
+    const target = new Date(el.dataset.target ?? "").getTime();
+    const daysEl = document.getElementById("cd-days");
+    const hoursEl = document.getElementById("cd-hours");
+    const minEl = document.getElementById("cd-min");
+
+    function tick() {
+      const diff = Math.max(0, target - Date.now());
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      if (daysEl) daysEl.textContent = String(d);
+      if (hoursEl) hoursEl.textContent = String(h).padStart(2, "0");
+      if (minEl) minEl.textContent = String(m).padStart(2, "0");
+    }
+    tick();
+    setInterval(tick, 30000);
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 76px 0 64px;
+  }
+  .ghost-num {
+    position: absolute;
+    top: -0.16em;
+    right: -0.06em;
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    font-size: min(30vw, 460px);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--line);
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: end;
+  }
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+  .hero h1 {
+    margin: 14px 0 0;
+    font-size: clamp(52px, 8vw, 116px);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 span {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-size: 100% 0.34em;
+    background-position: 0 92%;
+    padding: 0 0.02em;
+  }
+  .hero p.lede {
+    max-width: 46ch;
+    margin: 22px 0 0;
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 13px 22px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .btn-ghost {
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+
+  .next-race {
+    position: relative;
+    z-index: 2;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 26px 24px 22px;
+    box-shadow: 0 14px 30px -10px rgba(28, 26, 23, 0.28);
+    transform: rotate(-2.6deg);
+    animation: stampIn 0.65s cubic-bezier(0.19, 1.32, 0.4, 1) both;
+    animation-delay: 0.1s;
+  }
+  .next-race::before {
+    content: "";
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    width: 66px;
+    height: 24px;
+    transform: translateX(-50%) rotate(-3deg);
+    background: var(--accent-soft);
+    opacity: 0.92;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+  }
+  @keyframes stampIn {
+    0% {
+      opacity: 0;
+      transform: rotate(-2.6deg) scale(1.5);
+    }
+    65% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+      transform: rotate(-2.6deg) scale(1);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .next-race {
+      animation: none;
+    }
+  }
+  .next-race .eyebrow {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .next-race-name {
+    font-family: "Oswald", sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+  .next-race-meta {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .countdown {
+    margin-top: 18px;
+    display: flex;
+    gap: 22px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--line);
+  }
+  .countdown div {
+    text-align: left;
+  }
+  .countdown .num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    display: block;
+  }
+  .countdown .lbl {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+</style>

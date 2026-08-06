@@ -1,0 +1,39 @@
+---
+interface Props {
+  label?: string;
+}
+const { label } = Astro.props;
+---
+
+<div class="checker-divider" aria-hidden="true">
+  {label && <span class="flag-label">{label}</span>}
+</div>
+
+<style>
+  .checker-divider {
+    position: relative;
+    height: 15px;
+    background-image: repeating-conic-gradient(
+      var(--ink) 0% 25%,
+      var(--bg) 0% 50%
+    );
+    background-size: 15px 15px;
+  }
+  .flag-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-2deg);
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+    white-space: nowrap;
+  }
+</style>
