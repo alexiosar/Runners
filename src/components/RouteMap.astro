@@ -1,0 +1,91 @@
+---
+import "leaflet/dist/leaflet.css";
+import type { Route } from "../data/routes";
+
+interface Props {
+  routes: Route[];
+}
+const { routes } = Astro.props;
+---
+
+<div
+  id="route-map"
+  class="route-map"
+  data-routes={JSON.stringify(routes)}
+  aria-label="Mapa de rutas locales en Argentina"
+>
+</div>
+
+<script>
+  import L from "leaflet";
+  import type { Route } from "../data/routes";
+
+  const el = document.getElementById("route-map");
+  if (el) {
+    const routes: Route[] = JSON.parse(el.dataset.routes ?? "[]");
+
+    const map = L.map(el, {
+      scrollWheelZoom: false,
+      zoomControl: true,
+    }).setView([-35.5, -64.5], 4);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 18,
+    }).addTo(map);
+
+    const accent =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--accent")
+        .trim() || "#ff5a1f";
+    const ink =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--ink")
+        .trim() || "#1c1a17";
+
+    const bounds: [number, number][] = [];
+    routes.forEach((r) => {
+      const marker = L.circleMarker([r.lat, r.lng], {
+        radius: 9,
+        color: ink,
+        weight: 2,
+        fillColor: accent,
+        fillOpacity: 1,
+      }).addTo(map);
+      marker.bindPopup(
+        `<strong>${r.city}</strong><br>${r.spot}<br>${r.km} · ${r.surface}`,
+      );
+      bounds.push([r.lat, r.lng]);
+    });
+
+    if (bounds.length) {
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6 });
+    }
+  }
+</script>
+
+<style>
+  .route-map {
+    height: 420px;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  /* Desaturate only the OSM tiles — markers, popups and controls are
+     separate panes and stay untouched (a filter on a parent would grayscale
+     everything, since child filters can't "undo" an ancestor's filter). */
+  .route-map :global(.leaflet-tile-pane) {
+    filter: grayscale(1) contrast(1.05);
+  }
+  .route-map :global(.leaflet-popup-content) {
+    font-family: "Work Sans", sans-serif;
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+  .route-map :global(.leaflet-popup-content strong) {
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+</style>

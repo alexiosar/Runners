@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { races } from "../data/races";
+---
+
+<Layout
+  title="Calendario completo — PIQUE"
+  description="Todas las carreras de running en Argentina que seguimos en PIQUE, con fecha, ciudad, distancias y organizador."
+>
+  <header class="page-header">
+    <div class="wrap">
+      <span class="eyebrow">Agenda · {races.length} carreras</span>
+      <h1 class="display">Calendario completo</h1>
+      <p>
+        Todas las carreras que estamos siguiendo, ordenadas por fecha.
+        ¿Organizás una y no está? Mirá cómo sumarla en el <a
+          href="https://github.com/alexiosar/Runners/blob/main/README.md"
+          >README del proyecto</a
+        >.
+      </p>
+    </div>
+  </header>
+
+  <section class="block" style="border-bottom: none;">
+    <div class="wrap">
+      <div class="cal-table-wrap">
+        <table class="cal">
+          <thead>
+            <tr
+              ><th>Fecha</th><th>Carrera</th><th>Ciudad</th><th
+                >Distancias</th
+              ><th>Organizador</th><th>Tipo</th></tr
+            >
+          </thead>
+          <tbody>
+            {
+              races.map((r) => (
+                <tr>
+                  <td class="date mono">{r.date}</td>
+                  <td class="race-name">{r.name}</td>
+                  <td class="city">{r.city}</td>
+                  <td class="mono">{r.distances}</td>
+                  <td class="organizer">{r.organizer}</td>
+                  <td>
+                    <span class="tag">{r.tag}</span>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="source-note">
+        Datos relevados a mano el 2026-08-07 desde <a
+          href="https://ar.dondecorrer.com/"
+          target="_blank"
+          rel="noopener">ar.dondecorrer.com</a
+        > (sección "Destacadas", filtrando duatlones/triatlones/ciclismo). Esa
+        fuente está bastante centrada en Buenos Aires — para inscribirte o
+        confirmar una distancia marcada "Consultar", entrá directo a la
+        página del organizador o a dondecorrer.com.
+      </p>
+    </div>
+  </section>
+</Layout>

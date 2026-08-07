@@ -1,13 +1,5 @@
 ---
-// Fuentes (relevado 2026-08-07, ver README): notas de running de LA NACION,
-// ESPN Run, Great Runs, belong.com.ar y AllTrails/Mendoza Post. Strava
-// requiere login para explorar segmentos, así que no se pudo usar directo.
-const routes = [
-  { city: "Buenos Aires", spot: "Circuito del Rosedal, Bosques de Palermo", km: "1.6K", surface: "Asfalto" },
-  { city: "Córdoba", spot: "Parque Sarmiento", km: "5.7K", surface: "Mixto" },
-  { city: "Rosario", spot: "Costanera Central", km: "6.0K", surface: "Asfalto" },
-  { city: "Mendoza", spot: "Circuito del Lago, Parque Gral. San Martín", km: "2.5K", surface: "Asfalto" },
-];
+import { routes } from "../data/routes";
 ---
 
 <section class="block" id="rutas">
@@ -17,7 +9,7 @@ const routes = [
         <span class="eyebrow">Entrená en tu ciudad</span>
         <h2 class="display">Rutas locales</h2>
       </div>
-      <a class="see-all" href="/rutas">Ver todas las rutas →</a>
+      <a class="see-all" href="/rutas">Ver rutas en el mapa →</a>
     </div>
     <div class="routes-grid reveal">
       {
@@ -39,38 +31,6 @@ const routes = [
 </section>
 
 <style>
-  .block {
-    padding: 68px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .block-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
-    margin-bottom: 36px;
-    flex-wrap: wrap;
-  }
-  .block-head h2 {
-    margin: 8px 0 0;
-    font-size: clamp(30px, 4vw, 42px);
-    line-height: 1;
-  }
-  .see-all {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-decoration: none;
-    color: var(--ink-soft);
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 2px;
-    white-space: nowrap;
-  }
-  .see-all:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
   .routes-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

@@ -1,0 +1,121 @@
+---
+import Layout from "../layouts/Layout.astro";
+import RouteMap from "../components/RouteMap.astro";
+import { routes } from "../data/routes";
+---
+
+<Layout
+  title="Rutas locales — PIQUE"
+  description="Circuitos para correr en Buenos Aires, Córdoba, Rosario y Mendoza, ubicados en el mapa."
+>
+  <header class="page-header">
+    <div class="wrap">
+      <span class="eyebrow">Entrená en tu ciudad</span>
+      <h1 class="display">Rutas locales</h1>
+      <p>
+        Circuitos conocidos para entrenar en cuatro ciudades. Tocá un punto
+        del mapa para ver el detalle, o mirá las tarjetas de abajo.
+      </p>
+    </div>
+  </header>
+
+  <section class="block">
+    <div class="wrap">
+      <RouteMap routes={routes} />
+    </div>
+  </section>
+
+  <section class="block" style="border-bottom: none;">
+    <div class="wrap">
+      <div class="routes-grid-full">
+        {
+          routes.map((r) => (
+            <div class="route-card-full">
+              <div class="city">{r.city}</div>
+              <div class="spot">{r.spot}</div>
+              <div class="stats">
+                <span class="km">{r.km}</span>
+                <span class="surface">{r.surface}</span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <p class="source-note">
+        Distancias y superficies relevadas a mano el 2026-08-07 desde notas
+        de running de <a
+          href="https://www.lanacion.com.ar/salud/fitness/running-los-siete-mejores-circuitos-para-correr-en-buenos-aires-nid25052022/"
+          target="_blank"
+          rel="noopener">LA NACION</a
+        >, <a
+          href="https://www.espn.com.mx/espn-run/nota/_/id/8509682/pista-parque-sarmiento-cordoba"
+          target="_blank"
+          rel="noopener">ESPN Run</a
+        >, <a href="https://greatruns.com/" target="_blank" rel="noopener"
+          >Great Runs</a
+        >, <a
+          href="https://www.belong.com.ar/blog/posts/correr-rosario-los-circuitos-que-nos-mueven-9eb6a6d7a8cf/"
+          target="_blank"
+          rel="noopener">belong.com.ar</a
+        > y <a
+          href="https://www.mendozapost.com/nota/151292-este-es-el-recorrido-para-hacer-ejercicio-en-el-parque-san-martin/"
+          target="_blank"
+          rel="noopener">Mendoza Post</a
+        >. Strava requiere login para explorar segmentos, así que no se pudo
+        usar como fuente directa.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .routes-grid-full {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) {
+    .routes-grid-full {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .route-card-full {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 24px 22px;
+  }
+  .route-card-full .city {
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .route-card-full .spot {
+    margin-top: 6px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    min-height: 2.6em;
+  }
+  .route-card-full .stats {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 1px dashed var(--line);
+    padding-top: 12px;
+  }
+  .route-card-full .km {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .route-card-full .surface {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>

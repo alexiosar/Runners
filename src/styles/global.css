@@ -173,3 +173,135 @@ a {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ---------- shared section shell (used by most homepage blocks + subpages) ---------- */
+.block {
+  padding: 68px 0;
+  border-bottom: 1px solid var(--line);
+}
+.block-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.block-head h2 {
+  margin: 8px 0 0;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1;
+}
+.see-all {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+.see-all:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------- shared calendar table (home preview + /calendario) ---------- */
+.cal-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-raised);
+}
+table.cal {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+table.cal th {
+  text-align: left;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 600;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+}
+table.cal td {
+  padding: 18px 18px;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+  vertical-align: middle;
+}
+table.cal tr:last-child td {
+  border-bottom: none;
+}
+table.cal .date {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+table.cal .race-name {
+  font-family: "Oswald", sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+table.cal .city {
+  color: var(--ink-soft);
+}
+table.cal .organizer {
+  color: var(--ink-faint);
+  font-size: 13.5px;
+}
+.tag {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1.4px dashed var(--accent-dim);
+  background: transparent;
+  color: var(--accent-dim);
+  font-weight: 600;
+  transform: rotate(-3deg);
+}
+
+/* ---------- shared subpage header (page-level, not the homepage hero) ---------- */
+.page-header {
+  padding: 56px 0 40px;
+  border-bottom: 1px solid var(--line);
+}
+.page-header h1 {
+  margin: 10px 0 0;
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 0.96;
+  letter-spacing: -0.005em;
+}
+.page-header p {
+  max-width: 60ch;
+  margin: 16px 0 0;
+  font-size: 16.5px;
+  color: var(--ink-soft);
+}
+.source-note {
+  margin-top: 28px;
+  font-size: 13px;
+  color: var(--ink-faint);
+  max-width: 70ch;
+}
+.source-note a {
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.source-note a:hover {
+  color: var(--accent);
+}

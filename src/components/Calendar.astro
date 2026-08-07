@@ -1,65 +1,8 @@
 ---
-// Fuente: ar.dondecorrer.com (lista "Destacadas", relevada 2026-08-07).
-// Se filtraron duatlones/triatlones/ciclismo — solo carreras a pie (ruta y trail).
-// Volvé a esa página para sumar más fechas o confirmar distancias exactas.
-const races = [
-  {
-    date: "16 AGO",
-    name: "5K Nordelta",
-    city: "Nordelta, Buenos Aires",
-    distances: "5K",
-    tag: "Ruta",
-  },
-  {
-    date: "23 AGO",
-    name: "Media Maratón de Buenos Aires",
-    city: "Palermo, CABA",
-    distances: "21K",
-    tag: "Ruta",
-  },
-  {
-    date: "19 SEP",
-    name: "Extremo Tucumán - Tafí",
-    city: "Tafí del Valle, Tucumán",
-    distances: "Consultar",
-    tag: "Trail",
-  },
-  {
-    date: "20 SEP",
-    name: "Maratón Internacional de Buenos Aires",
-    city: "Palermo, CABA",
-    distances: "10K · 21K · 42K",
-    tag: "Ruta",
-  },
-  {
-    date: "04 OCT",
-    name: "Puma 10K San Isidro",
-    city: "San Isidro, Buenos Aires",
-    distances: "10K",
-    tag: "Ruta",
-  },
-  {
-    date: "18 OCT",
-    name: "Saucony Baires 15K",
-    city: "Palermo, CABA",
-    distances: "15K",
-    tag: "Ruta",
-  },
-  {
-    date: "28 NOV",
-    name: "Adidas 10K Night Run",
-    city: "Puerto Madero, CABA",
-    distances: "10K",
-    tag: "Ruta",
-  },
-  {
-    date: "05 DIC",
-    name: "El Cruce Saucony",
-    city: "San Carlos de Bariloche, Río Negro",
-    distances: "3 etapas",
-    tag: "Trail",
-  },
-];
+import { races } from "../data/races";
+
+// El home muestra solo las próximas 5 — el resto vive en /calendario.
+const preview = races.slice(0, 5);
 ---
 
 <section class="block" id="calendario">
@@ -69,7 +12,9 @@ const races = [
         <span class="eyebrow">Agenda</span>
         <h2 class="display">Próximas carreras</h2>
       </div>
-      <a class="see-all" href="/calendario">Ver calendario completo →</a>
+      <a class="see-all" href="/calendario"
+        >Ver calendario completo ({races.length}) →</a
+      >
     </div>
     <div class="cal-table-wrap reveal">
       <table class="cal">
@@ -82,7 +27,7 @@ const races = [
         </thead>
         <tbody>
           {
-            races.map((r) => (
+            preview.map((r) => (
               <tr>
                 <td class="date mono">{r.date}</td>
                 <td class="race-name">{r.name}</td>
@@ -100,97 +45,3 @@ const races = [
   </div>
 </section>
 
-<style>
-  .block {
-    padding: 68px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .block-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
-    margin-bottom: 36px;
-    flex-wrap: wrap;
-  }
-  .block-head h2 {
-    margin: 8px 0 0;
-    font-size: clamp(30px, 4vw, 42px);
-    line-height: 1;
-  }
-  .see-all {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-decoration: none;
-    color: var(--ink-soft);
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 2px;
-    white-space: nowrap;
-  }
-  .see-all:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-  .cal-table-wrap {
-    overflow-x: auto;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--bg-raised);
-  }
-  table.cal {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 640px;
-  }
-  table.cal th {
-    text-align: left;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-weight: 600;
-    padding: 16px 18px;
-    border-bottom: 1px solid var(--line);
-  }
-  table.cal td {
-    padding: 18px 18px;
-    border-bottom: 1px solid var(--line);
-    font-size: 15px;
-    vertical-align: middle;
-  }
-  table.cal tr:last-child td {
-    border-bottom: none;
-  }
-  table.cal .date {
-    font-family: "IBM Plex Mono", monospace;
-    font-weight: 600;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  table.cal .race-name {
-    font-family: "Oswald", sans-serif;
-    font-weight: 600;
-    font-size: 17px;
-    text-transform: uppercase;
-  }
-  table.cal .city {
-    color: var(--ink-soft);
-  }
-  .tag {
-    display: inline-block;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 3px;
-    border: 1.4px dashed var(--accent-dim);
-    background: transparent;
-    color: var(--accent-dim);
-    font-weight: 600;
-    transform: rotate(-3deg);
-  }
-</style>
