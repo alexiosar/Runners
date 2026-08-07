@@ -1,0 +1,248 @@
+---
+import "leaflet/dist/leaflet.css";
+---
+
+<div class="rb-wrap">
+  <div id="route-builder-map" class="rb-map" aria-label="Mapa para armar tu circuito"></div>
+  <div class="rb-panel">
+    <div class="rb-stat">
+      <span class="lbl">Distancia del circuito</span>
+      <span class="val mono" id="rb-distance">0.00 km</span>
+    </div>
+    <p class="rb-hint">
+      Hacé click (o tocá, en el celular) sobre el mapa para ir marcando el
+      recorrido. Podés deshacer el último punto o reiniciar todo.
+    </p>
+    <div class="rb-actions">
+      <button type="button" class="btn btn-ghost" id="rb-undo" disabled
+        >← Deshacer último punto</button
+      >
+      <button type="button" class="btn btn-ghost" id="rb-reset" disabled
+        >Reiniciar</button
+      >
+    </div>
+    <a
+      class="btn btn-primary"
+      id="rb-calc-link"
+      href="/#calculadora"
+      aria-disabled="true"
+    >
+      Calcular ritmo para esta distancia →
+    </a>
+  </div>
+</div>
+
+<script>
+  import L from "leaflet";
+
+  interface Point {
+    lat: number;
+    lng: number;
+  }
+
+  function haversineKm(a: Point, b: Point) {
+    const R = 6371;
+    const dLat = ((b.lat - a.lat) * Math.PI) / 180;
+    const dLng = ((b.lng - a.lng) * Math.PI) / 180;
+    const lat1 = (a.lat * Math.PI) / 180;
+    const lat2 = (b.lat * Math.PI) / 180;
+    const h =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  const mapEl = document.getElementById("route-builder-map");
+  const distanceEl = document.getElementById("rb-distance");
+  const undoBtn = document.getElementById(
+    "rb-undo",
+  ) as HTMLButtonElement | null;
+  const resetBtn = document.getElementById(
+    "rb-reset",
+  ) as HTMLButtonElement | null;
+  const calcLink = document.getElementById(
+    "rb-calc-link",
+  ) as HTMLAnchorElement | null;
+
+  if (mapEl) {
+    const map = L.map(mapEl, { scrollWheelZoom: false }).setView(
+      [-34.6, -58.45],
+      12,
+    );
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    const accent =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--accent")
+        .trim() || "#ff5a1f";
+    const ink =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--ink")
+        .trim() || "#1c1a17";
+
+    const points: Point[] = [];
+    const markers: L.CircleMarker[] = [];
+    let polyline: L.Polyline | null = null;
+
+    function totalDistance() {
+      let total = 0;
+      for (let i = 1; i < points.length; i++) {
+        total += haversineKm(points[i - 1], points[i]);
+      }
+      return total;
+    }
+
+    function render() {
+      const dist = totalDistance();
+      if (distanceEl) distanceEl.textContent = `${dist.toFixed(2)} km`;
+
+      if (polyline) {
+        polyline.setLatLngs(points.map((p) => [p.lat, p.lng]));
+      }
+
+      const hasPoints = points.length > 0;
+      if (undoBtn) undoBtn.disabled = !hasPoints;
+      if (resetBtn) resetBtn.disabled = !hasPoints;
+
+      const hasDistance = dist > 0;
+      if (calcLink) {
+        if (hasDistance) {
+          calcLink.href = `/?km=${dist.toFixed(2)}#calculadora`;
+          calcLink.removeAttribute("aria-disabled");
+          calcLink.classList.remove("btn-disabled-look");
+        } else {
+          calcLink.href = "/#calculadora";
+          calcLink.setAttribute("aria-disabled", "true");
+          calcLink.classList.add("btn-disabled-look");
+        }
+      }
+    }
+
+    function addPoint(p: Point) {
+      points.push(p);
+      const marker = L.circleMarker([p.lat, p.lng], {
+        radius: 7,
+        color: ink,
+        weight: 2,
+        fillColor: accent,
+        fillOpacity: 1,
+      }).addTo(map);
+      markers.push(marker);
+
+      if (!polyline) {
+        polyline = L.polyline([], { color: accent, weight: 4 }).addTo(map);
+      }
+      render();
+    }
+
+    map.on("click", (e: L.LeafletMouseEvent) => {
+      addPoint({ lat: e.latlng.lat, lng: e.latlng.lng });
+    });
+
+    undoBtn?.addEventListener("click", () => {
+      points.pop();
+      const marker = markers.pop();
+      marker?.remove();
+      render();
+    });
+
+    resetBtn?.addEventListener("click", () => {
+      points.length = 0;
+      markers.forEach((m) => m.remove());
+      markers.length = 0;
+      if (polyline) {
+        polyline.remove();
+        polyline = null;
+      }
+      render();
+    });
+
+    calcLink?.addEventListener("click", (e) => {
+      if (calcLink.getAttribute("aria-disabled") === "true") {
+        e.preventDefault();
+      }
+    });
+
+    render();
+  }
+</script>
+
+<style>
+  .rb-wrap {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .rb-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+  .rb-map {
+    height: 520px;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: crosshair;
+  }
+  .rb-map :global(.leaflet-tile-pane) {
+    filter: grayscale(1) contrast(1.05);
+  }
+  .rb-panel {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: sticky;
+    top: 84px;
+  }
+  .rb-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .rb-stat .lbl {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .rb-stat .val {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .rb-hint {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .rb-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .rb-actions .btn {
+    text-align: center;
+    width: 100%;
+  }
+  #rb-calc-link {
+    text-align: center;
+  }
+  .btn-disabled-look {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+</style>

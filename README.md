@@ -9,10 +9,10 @@ Calendario de carreras, calculadora de ritmos y rutas de running en Argentina. C
 ├── public/
 │   └── fonts/          fuentes autohospedadas (Oswald, Work Sans, IBM Plex Mono)
 ├── src/
-│   ├── components/      Nav, Footer, Hero, Calculator, Calendar, Routes, RouteMap, Plans, CtaBand
+│   ├── components/      Nav, Footer, Hero, Calculator, Calendar, Routes, RouteMap, RouteBuilder, Plans, CtaBand
 │   ├── data/             races.ts y routes.ts — única fuente de datos, la comparten el home y las páginas completas
 │   ├── layouts/          Layout.astro (nav + footer + overlay de grano compartidos)
-│   ├── pages/            index.astro (home), calendario.astro, rutas.astro
+│   ├── pages/            index.astro (home), calendario.astro, rutas.astro, circuito.astro
 │   └── styles/           global.css — tokens de color, tipografía, resets, estilos compartidos (.block, tabla del calendario, etc.)
 └── package.json
 ```
@@ -51,6 +51,12 @@ Mismo mecanismo en [`src/data/routes.ts`](src/data/routes.ts), array `routes` �
 El mapa de `/rutas` usa [Leaflet](https://leafletjs.com/) + tiles de OpenStreetMap (gratis, sin API key) — ver [`RouteMap.astro`](src/components/RouteMap.astro).
 
 Las rutas actuales se relevaron a mano el 2026-08-07 desde notas de running de [LA NACION](https://www.lanacion.com.ar/salud/fitness/running-los-siete-mejores-circuitos-para-correr-en-buenos-aires-nid25052022/), [ESPN Run](https://www.espn.com.mx/espn-run/nota/_/id/8509682/pista-parque-sarmiento-cordoba), [Great Runs](https://greatruns.com/), [belong.com.ar](https://www.belong.com.ar/blog/posts/correr-rosario-los-circuitos-que-nos-mueven-9eb6a6d7a8cf/) y [Mendoza Post](https://www.mendozapost.com/nota/151292-este-es-el-recorrido-para-hacer-ejercicio-en-el-parque-san-martin/) — **no Strava**, cuyo explorador de segmentos pide login y no se pudo navegar sin cuenta. Si en algún momento se consigue acceso a Strava, esos circuitos "oficiales" de cada ciudad son un buen punto de partida para buscar los segmentos más populares y reemplazar estos datos por algo más preciso (elevación, popularidad real, etc.).
+
+## Armar un circuito (`/circuito`)
+
+Herramienta tipo gmap-pedometer: click en el mapa para ir marcando puntos, se dibuja el recorrido y calcula la distancia total en vivo (fórmula de Haversine, todo client-side — sin backend ni API paga, por eso no tiene perfil de elevación). Vive en [`RouteBuilder.astro`](src/components/RouteBuilder.astro), usado desde [`circuito.astro`](src/pages/circuito.astro).
+
+El botón "Calcular ritmo para esta distancia" manda a `/?km=X#calculadora` — [Calculator.astro](src/components/Calculator.astro) lee ese query param al cargar, agrega una opción "X km · Tu circuito" al selector de distancia y la deja seleccionada. Si cambiás cómo la calculadora arma sus opciones, revisá que ese enganche siga funcionando.
 
 ## Comandos
 

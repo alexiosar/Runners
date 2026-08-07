@@ -8,6 +8,7 @@
         <span class="eyebrow">Herramienta</span>
         <h2 class="display">Calculadora de ritmo</h2>
       </div>
+      <a class="see-all" href="/circuito">Armar mi circuito →</a>
     </div>
     <div class="calc reveal">
       <div class="field">
@@ -96,6 +97,20 @@
     el.addEventListener("input", calc);
     el.addEventListener("change", calc);
   });
+
+  // Si venimos de /circuito con una distancia armada a mano, la sumamos
+  // como opción y la dejamos seleccionada.
+  const customKm = parseFloat(
+    new URLSearchParams(window.location.search).get("km") ?? "",
+  );
+  if (customKm > 0) {
+    const opt = document.createElement("option");
+    opt.value = String(customKm);
+    opt.textContent = `${customKm.toFixed(2)} km · Tu circuito`;
+    distSel.prepend(opt);
+    distSel.value = String(customKm);
+  }
+
   calc();
 </script>
 

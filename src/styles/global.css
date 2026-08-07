@@ -302,6 +302,32 @@ table.cal .organizer {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* ---------- shared buttons ---------- */
+.btn {
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 13px 22px;
+  border-radius: 3px;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-family: "Work Sans", sans-serif;
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.btn-ghost {
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: transparent;
+}
 .source-note a:hover {
   color: var(--accent);
 }

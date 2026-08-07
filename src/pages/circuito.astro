@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import RouteBuilder from "../components/RouteBuilder.astro";
+---
+
+<Layout
+  title="Armá tu circuito — PIQUE"
+  description="Marcá puntos en el mapa y medí la distancia de tu propio circuito para correr, gratis y sin cuenta."
+>
+  <header class="page-header">
+    <div class="wrap">
+      <span class="eyebrow">Herramienta</span>
+      <h1 class="display">Armá tu circuito</h1>
+      <p>
+        Marcá el recorrido punto por punto y calculá la distancia total en
+        vivo — la misma idea de gmap-pedometer, pero integrado acá para que
+        después puedas mandar esa distancia directo a la calculadora de
+        ritmo.
+      </p>
+    </div>
+  </header>
+
+  <section class="block" style="border-bottom: none;">
+    <div class="wrap">
+      <RouteBuilder />
+    </div>
+  </section>
+</Layout>
