@@ -74,6 +74,19 @@ Herramienta tipo gmap-pedometer: click en el mapa para ir marcando puntos, se di
 
 El botón "Calcular ritmo para esta distancia" manda a `/?km=X#calculadora` — [Calculator.astro](src/components/Calculator.astro) lee ese query param al cargar, agrega una opción "X km · Tu circuito" al selector de distancia y la deja seleccionada. Si cambiás cómo la calculadora arma sus opciones, revisá que ese enganche siga funcionando.
 
+## Planes de entrenamiento (PDF)
+
+Los 4 PDF que se descargan desde la sección "Planes" del home (`public/plans/*.pdf`) están generados con un script, no hechos a mano — así se pueden regenerar o editar sin depender de un diseñador.
+
+```bash
+pip install reportlab
+python3 scripts/generate-plans/gen_plans.py
+```
+
+Esto sobreescribe los 4 PDF en `public/plans/`. El contenido de cada plan (semanas, sesiones, tips) está hardcodeado en [`scripts/generate-plans/gen_plans.py`](scripts/generate-plans/gen_plans.py) — para cambiar algo, se edita ahí y se corre el script de nuevo. Las fuentes (Oswald, Work Sans, IBM Plex Mono, mismas que el sitio) ya están en `scripts/generate-plans/fonts/`, no hace falta bajar nada.
+
+Si agregás un plan nuevo, sumalo también al array `plans` en [`Plans.astro`](src/components/Plans.astro) (número, nombre, y el nombre del archivo PDF).
+
 ## Comandos
 
 | Comando           | Acción                                          |

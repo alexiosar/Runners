@@ -1,9 +1,9 @@
 ---
 const plans = [
-  { num: "05", plan: "Principiante · 6 semanas" },
-  { num: "10", plan: "Intermedio · 8 semanas" },
-  { num: "21", plan: "Medio maratón · 10 sem." },
-  { num: "42", plan: "Maratón · 14 semanas" },
+  { num: "05", plan: "Principiante · 6 semanas", file: "plan-5k-principiante.pdf" },
+  { num: "10", plan: "Intermedio · 8 semanas", file: "plan-10k-intermedio.pdf" },
+  { num: "21", plan: "Medio maratón · 10 sem.", file: "plan-21k-medio-maraton.pdf" },
+  { num: "42", plan: "Maratón · 14 semanas", file: "plan-42k-maraton.pdf" },
 ];
 ---
 
@@ -39,7 +39,7 @@ const plans = [
               <span class="unit">K</span>
             </div>
             <div class="plan-name">{p.plan}</div>
-            <a class="dl" href="#">
+            <a class="dl" href={`/plans/${p.file}`} download>
               ↓ Descargar PDF
             </a>
           </div>
