@@ -1,0 +1,217 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import RaceMap from "../../components/RaceMap.astro";
+import { races } from "../../data/races";
+
+export function getStaticPaths() {
+  return races.map((race) => ({
+    params: { slug: race.slug },
+    props: { race },
+  }));
+}
+
+const { race } = Astro.props;
+
+const dateLabel = race.endDate
+  ? `${race.date} → ${race.endDate}`
+  : race.date;
+
+const ratingRows = race.ratings
+  ? [
+      { label: "Organización", value: race.ratings.organizacion },
+      { label: "Kit", value: race.ratings.kit },
+      { label: "Circuito", value: race.ratings.circuito },
+    ]
+  : [];
+---
+
+<Layout
+  title={`${race.name} — PIQUE`}
+  description={`Ficha de ${race.name}: fecha, distancias, ubicación e inscripción.`}
+>
+  <header class="page-header">
+    <div class="wrap">
+      <a class="back-link" href="/calendario">← Volver al calendario</a>
+      <span class="eyebrow">{dateLabel} · {race.city}</span>
+      <h1 class="display">{race.name}</h1>
+    </div>
+  </header>
+
+  <section class="block" style="border-bottom: none;">
+    <div class="wrap">
+      <div class="ficha-grid">
+        <div class="ficha-main">
+          <div class="fact-strip">
+            <div class="fact">
+              <span class="lbl">Distancias</span>
+              <span class="val mono">{race.distances}</span>
+            </div>
+            <div class="fact">
+              <span class="lbl">Tipo</span>
+              <span class="tag">{race.tag}</span>
+            </div>
+            <div class="fact">
+              <span class="lbl">Organizador</span>
+              <span class="val organizer-val">{race.organizer}</span>
+            </div>
+          </div>
+
+          <RaceMap lat={race.lat} lng={race.lng} label={race.name} />
+
+          {
+            ratingRows.length > 0 && (
+              <div class="ratings">
+                <span class="eyebrow">Valoración de la comunidad</span>
+                <div class="rating-rows">
+                  {ratingRows.map((r) => (
+                    <div class="rating-row">
+                      <span class="rating-label">{r.label}</span>
+                      <div class="rating-bar-wrap">
+                        <div
+                          class="rating-bar"
+                          style={`width: ${(r.value / 5) * 100}%`}
+                        />
+                      </div>
+                      <span class="rating-num mono">
+                        {r.value.toFixed(1)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </div>
+
+        <aside class="ficha-side">
+          <a
+            class="btn btn-primary"
+            href={race.infoUrl}
+            target="_blank"
+            rel="noopener"
+          >
+            Más info e inscripción →
+          </a>
+          <p class="source-note" style="margin-top: 16px;">
+            Datos relevados a mano el 2026-08-07 desde <a
+              href="https://ar.dondecorrer.com/"
+              target="_blank"
+              rel="noopener">ar.dondecorrer.com</a
+            >. Para inscribirte, confirmar precio o ver el reglamento
+            completo, entrá al link de arriba — es la página oficial del
+            organizador.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .back-link {
+    display: block;
+    margin-bottom: 18px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  .ficha-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .ficha-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .ficha-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fact-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px 24px;
+  }
+  .fact {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .fact .lbl {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .fact .val {
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .fact .organizer-val {
+    font-family: "Work Sans", sans-serif;
+  }
+
+  .ratings {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px 24px;
+  }
+  .rating-rows {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .rating-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 40px;
+    align-items: center;
+    gap: 12px;
+  }
+  .rating-label {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .rating-bar-wrap {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--bg-sunken);
+    overflow: hidden;
+  }
+  .rating-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+  .rating-num {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--accent-dim);
+    text-align: right;
+  }
+
+  .ficha-side {
+    position: sticky;
+    top: 84px;
+  }
+  .ficha-side .btn {
+    width: 100%;
+    text-align: center;
+  }
+</style>

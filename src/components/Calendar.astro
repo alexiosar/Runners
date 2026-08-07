@@ -30,7 +30,9 @@ const preview = races.slice(0, 5);
             preview.map((r) => (
               <tr>
                 <td class="date mono">{r.date}</td>
-                <td class="race-name">{r.name}</td>
+                <td class="race-name">
+                  <a href={`/calendario/${r.slug}`}>{r.name}</a>
+                </td>
                 <td class="city">{r.city}</td>
                 <td class="mono">{r.distances}</td>
                 <td>

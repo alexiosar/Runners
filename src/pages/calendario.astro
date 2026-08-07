@@ -37,7 +37,9 @@ import { races } from "../data/races";
               races.map((r) => (
                 <tr>
                   <td class="date mono">{r.date}</td>
-                  <td class="race-name">{r.name}</td>
+                  <td class="race-name">
+                    <a href={`/calendario/${r.slug}`}>{r.name}</a>
+                  </td>
                   <td class="city">{r.city}</td>
                   <td class="mono">{r.distances}</td>
                   <td class="organizer">{r.organizer}</td>
@@ -56,9 +58,9 @@ import { races } from "../data/races";
           target="_blank"
           rel="noopener">ar.dondecorrer.com</a
         > (sección "Destacadas", filtrando duatlones/triatlones/ciclismo). Esa
-        fuente está bastante centrada en Buenos Aires — para inscribirte o
-        confirmar una distancia marcada "Consultar", entrá directo a la
-        página del organizador o a dondecorrer.com.
+        fuente está bastante centrada en Buenos Aires. Tocá el nombre de una
+        carrera para ver su ficha completa, con mapa, valoración de la
+        comunidad y el link oficial de inscripción.
       </p>
     </div>
   </section>

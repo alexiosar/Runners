@@ -9,10 +9,10 @@ Calendario de carreras, calculadora de ritmos y rutas de running en Argentina. C
 ├── public/
 │   └── fonts/          fuentes autohospedadas (Oswald, Work Sans, IBM Plex Mono)
 ├── src/
-│   ├── components/      Nav, Footer, Hero, Calculator, Calendar, Routes, RouteMap, RouteBuilder, Plans, CtaBand
+│   ├── components/      Nav, Footer, Hero, Calculator, Calendar, Routes, RouteMap, RouteBuilder, RaceMap, Plans, CtaBand
 │   ├── data/             races.ts y routes.ts — única fuente de datos, la comparten el home y las páginas completas
 │   ├── layouts/          Layout.astro (nav + footer + overlay de grano compartidos)
-│   ├── pages/            index.astro (home), calendario.astro, rutas.astro, circuito.astro
+│   ├── pages/            index.astro (home), calendario.astro + calendario/[slug].astro (ficha por carrera), rutas.astro, circuito.astro
 │   └── styles/           global.css — tokens de color, tipografía, resets, estilos compartidos (.block, tabla del calendario, etc.)
 └── package.json
 ```
@@ -25,18 +25,25 @@ Abrí [`src/data/races.ts`](src/data/races.ts) y agregá un objeto nuevo al arra
 
 ```js
 {
+  slug: "media-maraton-rosario", // define la URL: /calendario/media-maraton-rosario
   date: "30 AGO",
   name: "Media Maratón de Rosario",
   city: "Rosario, Santa Fe",
   distances: "10K · 21K",
   tag: "Ruta", // o "Trail"
   organizer: "Club de Corredores",
+  lat: -32.9584,
+  lng: -60.6232,
+  infoUrl: "https://ejemplo.com/inscripcion", // página oficial de inscripción
+  ratings: { organizacion: 4.5, kit: 4.0, circuito: 4.8 }, // opcional
 },
 ```
 
-Guardás y aparece sola tanto en el preview del home como en `/calendario` — no hace falta tocar nada más. El orden de la lista es el orden en que se muestran, así que conviene mantenerlas ordenadas por fecha. El home solo toma las primeras 5 (`races.slice(0, 5)` en [Calendar.astro](src/components/Calendar.astro)), así que si agregás una carrera más próxima que las actuales, capaz desplaza a otra del preview — la sigue teniendo `/calendario` igual.
+`slug`, `lat`/`lng` e `infoUrl` son obligatorios — son los que arman la ficha individual (`/calendario/[slug].astro`, generada automáticamente por Astro con `getStaticPaths` a partir de este mismo array). `ratings` y `endDate` (para carreras de varios días, tipo "El Cruce") son opcionales.
 
-Las carreras actuales se relevaron a mano desde [ar.dondecorrer.com](https://ar.dondecorrer.com/) (sección "Destacadas", filtrando duatlones/triatlones/ciclismo) el 2026-08-07 — volvé ahí para sumar fechas nuevas o confirmar distancias que quedaron como "Consultar". Esa fuente está bastante centrada en Buenos Aires; para Córdoba, Rosario, Mendoza, etc. probablemente haya que buscar en otro lado o revisar el filtro "Todas" del sitio.
+Guardás y la carrera aparece sola en el preview del home, en `/calendario` y en su propia ficha — no hace falta tocar nada más. El orden de la lista es el orden en que se muestran, así que conviene mantenerlas ordenadas por fecha. El home solo toma las primeras 5 (`races.slice(0, 5)` en [Calendar.astro](src/components/Calendar.astro)), así que si agregás una carrera más próxima que las actuales, capaz desplaza a otra del preview — la sigue teniendo `/calendario` igual.
+
+Las carreras actuales se relevaron a mano desde [ar.dondecorrer.com](https://ar.dondecorrer.com/) (sección "Destacadas", filtrando duatlones/triatlones/ciclismo) el 2026-08-07. El listado da lo básico (fecha, ciudad, distancias); para el resto (coordenadas exactas, rating, link "Más Info") hay que abrir la ficha de cada carrera desde el sitio — el click en "Ver más" de cada tarjeta abre un modal con esos datos. Esa fuente está bastante centrada en Buenos Aires; para Córdoba, Rosario, Mendoza, etc. probablemente haya que buscar en otro lado o revisar el filtro "Todas" del sitio.
 
 > La tarjeta "Próxima carrera" del hero ([Hero.astro](src/components/Hero.astro)) muestra la misma carrera que la primera fila de la tabla — si agregás una carrera más próxima en el tiempo, actualizá también `RACE_DATE` y el texto de esa tarjeta ahí.
 
