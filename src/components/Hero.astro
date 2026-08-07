@@ -1,5 +1,6 @@
 ---
-const RACE_DATE = "2026-08-30T09:00:00-03:00";
+// Mantené esto en sync con la primera fila de src/components/Calendar.astro
+const RACE_DATE = "2026-08-16T09:00:00-03:00";
 ---
 
 <header class="hero" id="top">
@@ -19,8 +20,8 @@ const RACE_DATE = "2026-08-30T09:00:00-03:00";
     </div>
     <div class="next-race">
       <span class="eyebrow">Próxima carrera</span>
-      <div class="next-race-name">Media Maratón de Rosario</div>
-      <div class="next-race-meta">21K · Rosario, Santa Fe</div>
+      <div class="next-race-name">5K Nordelta</div>
+      <div class="next-race-meta">5K · Nordelta, Buenos Aires</div>
       <div class="countdown mono" id="countdown" data-target={RACE_DATE}>
         <div><span class="num" id="cd-days">--</span><span class="lbl"
             >Días</span

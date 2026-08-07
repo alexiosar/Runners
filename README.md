@@ -18,6 +18,34 @@ Calendario de carreras, calculadora de ritmos y rutas de running en Argentina. C
 
 Los datos de carreras y rutas hoy están hardcodeados directamente en `src/components/Calendar.astro` y `src/components/Routes.astro` — se editan a mano ahí mismo mientras el volumen de eventos sea chico.
 
+## Cómo agregar una carrera
+
+Abrí [`src/components/Calendar.astro`](src/components/Calendar.astro) y agregá un objeto nuevo al array `races` (arriba del todo, en el frontmatter):
+
+```js
+{
+  date: "30 AGO",
+  name: "Media Maratón de Rosario",
+  city: "Rosario, Santa Fe",
+  distances: "10K · 21K",
+  tag: "Ruta", // o "Trail"
+},
+```
+
+Guardás y aparece sola en la tabla — no hace falta tocar nada más. El orden de la lista es el orden en que se muestran, así que conviene mantenerlas ordenadas por fecha.
+
+Las carreras actuales se relevaron a mano desde [ar.dondecorrer.com](https://ar.dondecorrer.com/) (sección "Destacadas", filtrando duatlones/triatlones/ciclismo) el 2026-08-07 — volvé ahí para sumar fechas nuevas o confirmar distancias que quedaron como "Consultar". Esa fuente está bastante centrada en Buenos Aires; para Córdoba, Rosario, Mendoza, etc. probablemente haya que buscar en otro lado o revisar el filtro "Todas" del sitio.
+
+> La tarjeta "Próxima carrera" del hero ([Hero.astro](src/components/Hero.astro)) muestra la misma carrera que la primera fila de la tabla — si agregás una carrera más próxima en el tiempo, actualizá también `RACE_DATE` y el texto de esa tarjeta ahí.
+
+## Cómo agregar una ruta local
+
+Mismo mecanismo en [`src/components/Routes.astro`](src/components/Routes.astro), array `routes`:
+
+```js
+{ city: "La Plata", spot: "Bosque de La Plata", km: "5.0K", surface: "Mixto" },
+```
+
 ## Comandos
 
 | Comando           | Acción                                          |
