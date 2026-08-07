@@ -20,41 +20,44 @@
           <option value="42.195">42K · Maratón</option>
         </select>
       </div>
-      <div class="field">
+      <div class="field field-time">
         <label for="timeH">Tiempo objetivo</label>
         <div class="timeinputs">
-          <input
-            type="number"
-            id="timeH"
-            min="0"
-            max="23"
-            value="0"
-            aria-label="Horas"
-          />
-          <span>:</span>
-          <input
-            type="number"
-            id="timeM"
-            min="0"
-            max="59"
-            value="50"
-            aria-label="Minutos"
-          />
-          <span>:</span>
-          <input
-            type="number"
-            id="timeS"
-            min="0"
-            max="59"
-            value="0"
-            aria-label="Segundos"
-          />
-        </div>
-      </div>
-      <div class="field">
-        <label>&nbsp;</label>
-        <div class="calc-note" style="margin-top:0;">
-          hs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg
+          <div class="time-field">
+            <input
+              type="number"
+              id="timeH"
+              min="0"
+              max="23"
+              value="0"
+              aria-label="Horas"
+            />
+            <span class="time-unit">hs</span>
+          </div>
+          <span class="sep">:</span>
+          <div class="time-field">
+            <input
+              type="number"
+              id="timeM"
+              min="0"
+              max="59"
+              value="50"
+              aria-label="Minutos"
+            />
+            <span class="time-unit">min</span>
+          </div>
+          <span class="sep">:</span>
+          <div class="time-field">
+            <input
+              type="number"
+              id="timeS"
+              min="0"
+              max="59"
+              value="0"
+              aria-label="Segundos"
+            />
+            <span class="time-unit">seg</span>
+          </div>
         </div>
       </div>
       <div class="calc-result">
@@ -121,14 +124,15 @@
     border-radius: 8px;
     padding: 32px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr) auto;
+    grid-template-columns: 1fr 1.6fr auto;
     gap: 20px;
     align-items: end;
     box-shadow: var(--shadow);
   }
-  @media (max-width: 800px) {
+  @media (max-width: 700px) {
     .calc {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
+      padding: 24px 20px;
     }
   }
   .field label {
@@ -156,6 +160,15 @@
   }
   .timeinputs {
     display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .time-field {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 6px;
   }
   .timeinputs input {
@@ -171,8 +184,16 @@
     background: var(--bg);
     color: var(--ink);
   }
-  .timeinputs span {
+  .time-unit {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .timeinputs .sep {
     align-self: center;
+    margin-top: 11px;
     color: var(--ink-faint);
     font-family: "IBM Plex Mono", monospace;
   }
@@ -183,6 +204,12 @@
     padding: 13px 20px;
     text-align: center;
     min-width: 148px;
+  }
+  @media (max-width: 700px) {
+    .calc-result {
+      min-width: 0;
+      width: 100%;
+    }
   }
   .calc-result .lbl {
     font-size: 10.5px;
