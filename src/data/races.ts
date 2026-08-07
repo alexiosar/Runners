@@ -1,11 +1,13 @@
-// Fuente: ar.dondecorrer.com (lista "Destacadas", relevada 2026-08-07).
-// Se filtraron duatlones/triatlones/ciclismo — solo carreras a pie (ruta y trail).
-// El detalle (rating, link "Más Info", coordenadas exactas) se sacó abriendo
-// la ficha de cada carrera en el sitio — ver README para cómo volver a esa fuente.
-export interface RaceRatings {
-  organizacion: number;
-  kit: number;
-  circuito: number;
+// Lista base (fecha/ciudad/distancias/organizador) relevada a mano el 2026-08-07
+// desde el listado público de carreras de running en Argentina. El detalle
+// extendido (largada exacta, retiro de kit, cifras de la última edición) se
+// sacó directamente de la página oficial de cada carrera — ver `infoUrl`.
+// Volvé a esas fuentes cuando haya que actualizar algo.
+export interface RaceStats {
+  edition?: string;
+  participants?: string;
+  countries?: string;
+  bestTime?: string;
 }
 
 export interface Race {
@@ -20,7 +22,12 @@ export interface Race {
   lat: number;
   lng: number;
   infoUrl: string;
-  ratings?: RaceRatings;
+  startPoint?: string;
+  startTime?: string;
+  kitPickup?: string;
+  highlights?: string;
+  contact?: string;
+  stats?: RaceStats;
 }
 
 export const races: Race[] = [
@@ -35,6 +42,8 @@ export const races: Race[] = [
     lat: -34.40265,
     lng: -58.66848,
     infoUrl: "https://eventols.com/p/dua5k-nordelta-2026",
+    startPoint: "Dua Nordelta",
+    startTime: "8:00 hs",
   },
   {
     slug: "media-maraton-buenos-aires",
@@ -48,7 +57,13 @@ export const races: Race[] = [
     lng: -58.4171,
     infoUrl:
       "https://www.maratondebuenosaires.com/medio-maraton-de-buenos-aires-21k.html",
-    ratings: { organizacion: 4.4, kit: 3.7, circuito: 4.8 },
+    kitPickup:
+      "Parque Sarmiento, ingreso por Av. Triunvirato — Jue 20/8: 11 a 19hs · Vie 21/8: 11 a 20hs · Sáb 22/8: 9 a 16hs. Llevá DNI, el código QR de la inscripción y tu número de dorsal (podés retirarlo un tercero con ambos documentos).",
+    stats: {
+      participants: "25.000 inscriptos",
+      countries: "32 países",
+      bestTime: "1:00:24",
+    },
   },
   {
     slug: "extremo-tucuman-tafi",
@@ -61,7 +76,7 @@ export const races: Race[] = [
     lat: -26.85189,
     lng: -65.70819,
     infoUrl: "https://extremotucuman.com.ar/",
-    ratings: { organizacion: 5.0, kit: 4.3, circuito: 5.0 },
+    contact: "Sebastián Di Silvestre · +54 9 3814 49-2172",
   },
   {
     slug: "maraton-internacional-buenos-aires",
@@ -74,7 +89,13 @@ export const races: Race[] = [
     lat: -34.57088,
     lng: -58.4171,
     infoUrl: "https://www.maratondebuenosaires.com/",
-    ratings: { organizacion: 4.7, kit: 4.3, circuito: 4.6 },
+    startPoint: "Av. Figueroa Alcorta y Dorrego",
+    startTime: "7:00 hs",
+    stats: {
+      participants: "15.000 inscriptos",
+      countries: "44 países",
+      bestTime: "2:09:04",
+    },
   },
   {
     slug: "puma-10k-san-isidro",
@@ -87,7 +108,6 @@ export const races: Race[] = [
     lat: -34.48057,
     lng: -58.52075,
     infoUrl: "https://www.instagram.com/carrerasmaratonesnandu/",
-    ratings: { organizacion: 4.8, kit: 4.5, circuito: 4.5 },
   },
   {
     slug: "saucony-baires-15k",
@@ -100,7 +120,7 @@ export const races: Race[] = [
     lat: -34.57088,
     lng: -58.4171,
     infoUrl: "https://clubdecorredores.com/carreras/524/Saucony-Baires-15k/",
-    ratings: { organizacion: 4.9, kit: 4.9, circuito: 4.8 },
+    contact: "WhatsApp +54 9 11 3053 3190",
   },
   {
     slug: "adidas-10k-night-run",
@@ -113,7 +133,6 @@ export const races: Race[] = [
     lat: -34.59827,
     lng: -58.3666,
     infoUrl: "https://www.instagram.com/carrerasmaratonesnandu/",
-    ratings: { organizacion: 4.7, kit: 4.7, circuito: 4.0 },
   },
   {
     slug: "el-cruce-saucony",
@@ -127,6 +146,8 @@ export const races: Race[] = [
     lat: -41.13585,
     lng: -71.31003,
     infoUrl: "https://elcruce.com.ar/",
-    ratings: { organizacion: 5.0, kit: 5.0, circuito: 5.0 },
+    highlights:
+      "Edición 24. La carrera por etapas más grande del mundo: 100K en 3 días de running, con 2 campamentos con costa de lago entre etapa y etapa. El kit incluye 4 comidas (2 almuerzos, 2 cenas), 2 desayunos y 2 meriendas, más servicios en los camps (carga de GPS, masajes, botas de recuperación, colchón inflable, bolsa de dormir y silla). Etapa 1: 15K el sábado 5/12 · Etapa 2: 33K el domingo 6/12.",
+    stats: { edition: "24ª edición" },
   },
 ];

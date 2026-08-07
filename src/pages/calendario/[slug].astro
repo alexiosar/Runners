@@ -16,12 +16,13 @@ const dateLabel = race.endDate
   ? `${race.date} → ${race.endDate}`
   : race.date;
 
-const ratingRows = race.ratings
+const statRows = race.stats
   ? [
-      { label: "Organización", value: race.ratings.organizacion },
-      { label: "Kit", value: race.ratings.kit },
-      { label: "Circuito", value: race.ratings.circuito },
-    ]
+      { label: "Edición", value: race.stats.edition },
+      { label: "Inscriptos", value: race.stats.participants },
+      { label: "Países", value: race.stats.countries },
+      { label: "Mejor tiempo", value: race.stats.bestTime },
+    ].filter((s) => s.value)
   : [];
 ---
 
@@ -54,31 +55,65 @@ const ratingRows = race.ratings
               <span class="lbl">Organizador</span>
               <span class="val organizer-val">{race.organizer}</span>
             </div>
+            {
+              race.startPoint && (
+                <div class="fact">
+                  <span class="lbl">Largada</span>
+                  <span class="val organizer-val">{race.startPoint}</span>
+                </div>
+              )
+            }
+            {
+              race.startTime && (
+                <div class="fact">
+                  <span class="lbl">Horario</span>
+                  <span class="val mono">{race.startTime}</span>
+                </div>
+              )
+            }
           </div>
 
           <RaceMap lat={race.lat} lng={race.lng} label={race.name} />
 
           {
-            ratingRows.length > 0 && (
-              <div class="ratings">
-                <span class="eyebrow">Valoración de la comunidad</span>
-                <div class="rating-rows">
-                  {ratingRows.map((r) => (
-                    <div class="rating-row">
-                      <span class="rating-label">{r.label}</span>
-                      <div class="rating-bar-wrap">
-                        <div
-                          class="rating-bar"
-                          style={`width: ${(r.value / 5) * 100}%`}
-                        />
-                      </div>
-                      <span class="rating-num mono">
-                        {r.value.toFixed(1)}
-                      </span>
+            statRows.length > 0 && (
+              <div class="info-card">
+                <span class="eyebrow">Última edición</span>
+                <div class="stat-row">
+                  {statRows.map((s) => (
+                    <div class="stat">
+                      <span class="stat-val mono">{s.value}</span>
+                      <span class="stat-lbl">{s.label}</span>
                     </div>
                   ))}
                 </div>
               </div>
+            )
+          }
+
+          {
+            race.highlights && (
+              <div class="info-card">
+                <span class="eyebrow">Sobre la carrera</span>
+                <p class="info-text">{race.highlights}</p>
+              </div>
+            )
+          }
+
+          {
+            race.kitPickup && (
+              <div class="info-card">
+                <span class="eyebrow">Retiro de kit</span>
+                <p class="info-text">{race.kitPickup}</p>
+              </div>
+            )
+          }
+
+          {
+            race.contact && (
+              <p class="contact-line">
+                <span class="eyebrow">Contacto</span> {race.contact}
+              </p>
             )
           }
         </div>
@@ -93,13 +128,10 @@ const ratingRows = race.ratings
             Más info e inscripción →
           </a>
           <p class="source-note" style="margin-top: 16px;">
-            Datos relevados a mano el 2026-08-07 desde <a
-              href="https://ar.dondecorrer.com/"
-              target="_blank"
-              rel="noopener">ar.dondecorrer.com</a
-            >. Para inscribirte, confirmar precio o ver el reglamento
+            Para inscribirte, confirmar el precio exacto o ver el reglamento
             completo, entrá al link de arriba — es la página oficial del
-            organizador.
+            organizador. El resto de los datos de esta ficha se actualizó a
+            mano el 2026-08-07.
           </p>
         </aside>
       </div>
@@ -166,44 +198,49 @@ const ratingRows = race.ratings
     font-family: "Work Sans", sans-serif;
   }
 
-  .ratings {
+  .info-card {
     background: var(--bg-raised);
     border: 1px solid var(--line);
     border-radius: 8px;
     padding: 22px 24px;
   }
-  .rating-rows {
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .rating-row {
-    display: grid;
-    grid-template-columns: 110px 1fr 40px;
-    align-items: center;
-    gap: 12px;
-  }
-  .rating-label {
-    font-size: 13.5px;
+  .info-text {
+    margin: 14px 0 0;
+    font-size: 14.5px;
+    line-height: 1.6;
     color: var(--ink-soft);
   }
-  .rating-bar-wrap {
-    height: 6px;
-    border-radius: 3px;
-    background: var(--bg-sunken);
-    overflow: hidden;
+
+  .stat-row {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
   }
-  .rating-bar {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 3px;
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
-  .rating-num {
-    font-size: 13.5px;
+  .stat-val {
+    font-size: 22px;
     font-weight: 600;
-    color: var(--accent-dim);
-    text-align: right;
+    color: var(--accent);
+  }
+  .stat-lbl {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .contact-line {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .contact-line .eyebrow {
+    margin-right: 6px;
   }
 
   .ficha-side {

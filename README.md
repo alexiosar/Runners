@@ -34,16 +34,25 @@ Abrí [`src/data/races.ts`](src/data/races.ts) y agregá un objeto nuevo al arra
   organizer: "Club de Corredores",
   lat: -32.9584,
   lng: -60.6232,
-  infoUrl: "https://ejemplo.com/inscripcion", // página oficial de inscripción
-  ratings: { organizacion: 4.5, kit: 4.0, circuito: 4.8 }, // opcional
+  infoUrl: "https://ejemplo.com/inscripcion", // página oficial de inscripción/organizador
+
+  // todo lo de acá para abajo es opcional — se muestra en la ficha (/calendario/[slug])
+  // solo si está presente, así que no hace falta completarlo todo:
+  startPoint: "Bv. Oroño y el río",
+  startTime: "8:00 hs",
+  kitPickup: "Club de Corredores — Vie 28/8 10 a 19hs. Llevá DNI y el QR de la inscripción.",
+  highlights: "Texto libre para 1-2 datos que valga la pena destacar (ediciones anteriores, algo especial del circuito, etc.).",
+  contact: "WhatsApp +54 9 341 000-0000",
+  stats: { edition: "12ª edición", participants: "3.000 inscriptos", countries: "8 países", bestTime: "1:04:12" },
+  endDate: "31 AGO", // solo para carreras de varios días, tipo "El Cruce"
 },
 ```
 
-`slug`, `lat`/`lng` e `infoUrl` son obligatorios — son los que arman la ficha individual (`/calendario/[slug].astro`, generada automáticamente por Astro con `getStaticPaths` a partir de este mismo array). `ratings` y `endDate` (para carreras de varios días, tipo "El Cruce") son opcionales.
+`slug`, `lat`/`lng` e `infoUrl` son obligatorios — son los que arman la ficha individual (`/calendario/[slug].astro`, generada automáticamente por Astro con `getStaticPaths` a partir de este mismo array).
 
 Guardás y la carrera aparece sola en el preview del home, en `/calendario` y en su propia ficha — no hace falta tocar nada más. El orden de la lista es el orden en que se muestran, así que conviene mantenerlas ordenadas por fecha. El home solo toma las primeras 5 (`races.slice(0, 5)` en [Calendar.astro](src/components/Calendar.astro)), así que si agregás una carrera más próxima que las actuales, capaz desplaza a otra del preview — la sigue teniendo `/calendario` igual.
 
-Las carreras actuales se relevaron a mano desde [ar.dondecorrer.com](https://ar.dondecorrer.com/) (sección "Destacadas", filtrando duatlones/triatlones/ciclismo) el 2026-08-07. El listado da lo básico (fecha, ciudad, distancias); para el resto (coordenadas exactas, rating, link "Más Info") hay que abrir la ficha de cada carrera desde el sitio — el click en "Ver más" de cada tarjeta abre un modal con esos datos. Esa fuente está bastante centrada en Buenos Aires; para Córdoba, Rosario, Mendoza, etc. probablemente haya que buscar en otro lado o revisar el filtro "Todas" del sitio.
+La lista base (fecha, ciudad, distancias, organizador) se relevó a mano el 2026-08-07 desde un listado público de carreras de running en Argentina, con foco en Buenos Aires; para Córdoba, Rosario, Mendoza, etc. probablemente haga falta buscar en otro lado. Los campos opcionales de cada ficha (largada exacta, retiro de kit, cifras de la última edición) se sacaron directo de la página oficial de cada carrera (el mismo link que va en `infoUrl`) — **no mostramos nada de valoraciones ni datos de terceros que no sean nuestros o del organizador**, solo hechos públicos y el link para inscribirse.
 
 > La tarjeta "Próxima carrera" del hero ([Hero.astro](src/components/Hero.astro)) muestra la misma carrera que la primera fila de la tabla — si agregás una carrera más próxima en el tiempo, actualizá también `RACE_DATE` y el texto de esa tarjeta ahí.
 
