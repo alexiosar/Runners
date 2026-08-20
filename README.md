@@ -52,7 +52,9 @@ Abrí [`src/data/races.ts`](src/data/races.ts) y agregá un objeto nuevo al arra
 
 Guardás y la carrera aparece sola en el preview del home, en `/calendario` y en su propia ficha — no hace falta tocar nada más. El orden de la lista es el orden en que se muestran, así que conviene mantenerlas ordenadas por fecha. El home solo toma las primeras 5 (`races.slice(0, 5)` en [Calendar.astro](src/components/Calendar.astro)), así que si agregás una carrera más próxima que las actuales, capaz desplaza a otra del preview — la sigue teniendo `/calendario` igual.
 
-La lista base (fecha, ciudad, distancias, organizador) se relevó a mano el 2026-08-07 desde un listado público de carreras de running en Argentina, con foco en Buenos Aires; para Córdoba, Rosario, Mendoza, etc. probablemente haga falta buscar en otro lado. Los campos opcionales de cada ficha (largada exacta, retiro de kit, cifras de la última edición) se sacaron directo de la página oficial de cada carrera (el mismo link que va en `infoUrl`) — **no mostramos nada de valoraciones ni datos de terceros que no sean nuestros o del organizador**, solo hechos públicos y el link para inscribirse.
+La lista base (fecha, ciudad, distancias, organizador) se relevó a mano desde un listado público de carreras de running en Argentina, usando el filtro "Todas" (no solo "Destacadas", que viene sesgado a Buenos Aires) y filtrando por provincia argentina real para que no se cuelen carreras de Chile/Uruguay/Brasil que a veces aparecen mezcladas ahí. Al 2026-08-07 el calendario cubre 14 provincias + CABA (Buenos Aires, Catamarca, Chubut, Córdoba, Mendoza, Misiones, Neuquén, Río Negro, Salta, San Luis, Santa Cruz, Santa Fe, Tierra del Fuego, Tucumán). Siguen sin ninguna carrera: Chaco, Corrientes, Entre Ríos, Formosa, Jujuy, La Pampa, La Rioja, San Juan y Santiago del Estero — esa fuente no tenía nada de running/trail publicado ahí al momento del relevamiento, no es que se hayan salteado a propósito. Los campos opcionales de cada ficha (largada exacta, retiro de kit, cifras de la última edición) se sacaron directo de la página oficial de cada carrera (el mismo link que va en `infoUrl`) — **no mostramos nada de valoraciones ni datos de terceros que no sean nuestros o del organizador**, solo hechos públicos y el link para inscribirse.
+
+Algunas carreras chicas no tienen web propia, así que `infoUrl` apunta a su Instagram (a veces incluso a un post puntual, no al perfil) — son links más frágiles que pueden vencer; si alguno ya no sirve, buscá el nombre de la carrera de nuevo en la fuente.
 
 > La tarjeta "Próxima carrera" del hero ([Hero.astro](src/components/Hero.astro)) muestra la misma carrera que la primera fila de la tabla — si agregás una carrera más próxima en el tiempo, actualizá también `RACE_DATE` y el texto de esa tarjeta ahí.
 
@@ -86,6 +88,15 @@ python3 scripts/generate-plans/gen_plans.py
 Esto sobreescribe los 4 PDF en `public/plans/`. El contenido de cada plan (semanas, sesiones, tips) está hardcodeado en [`scripts/generate-plans/gen_plans.py`](scripts/generate-plans/gen_plans.py) — para cambiar algo, se edita ahí y se corre el script de nuevo. Las fuentes (Oswald, Work Sans, IBM Plex Mono, mismas que el sitio) ya están en `scripts/generate-plans/fonts/`, no hace falta bajar nada.
 
 Si agregás un plan nuevo, sumalo también al array `plans` en [`Plans.astro`](src/components/Plans.astro) (número, nombre, y el nombre del archivo PDF).
+
+## Rutina de mantenimiento
+
+Este es un sitio de contenido chico — si nadie lo toca, el calendario se pudre rápido. Cadencia acordada:
+
+- **Semanal (~10 min):** revisar fuentes de carreras por lo que se viene en los próximos 2-3 meses, sumar lo nuevo a `races.ts`, sacar o archivar lo que ya pasó. Commit + push (Cloudflare deploya solo).
+- **Mensual (más a fondo):** buscar específicamente carreras en las provincias que todavía no tienen ninguna (ver lista arriba), revisar que los `infoUrl` sigan funcionando (los que apuntan a Instagram son los más frágiles), sumar 1-2 rutas locales nuevas en `routes.ts`, y repasar si quedó algo a medio hacer.
+
+No hay scraping automatizado — la fuente de datos cambia de formato seguido y conviene curar a mano qué se suma. El flujo real es: pedirle a Claude que actualice el calendario con la frecuencia que se quiera.
 
 ## Comandos
 
