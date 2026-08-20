@@ -1,6 +1,15 @@
 ---
-// Mantené esto en sync con la primera fila de src/components/Calendar.astro
-const RACE_DATE = "2026-08-16T09:00:00-03:00";
+import { getNextRace } from "../data/races";
+
+const nextRace = getNextRace();
+
+let raceDateIso: string | undefined;
+if (nextRace) {
+  const timeMatch = nextRace.startTime?.match(/(\d{1,2}):(\d{2})/);
+  const hh = (timeMatch ? timeMatch[1] : "9").padStart(2, "0");
+  const mm = timeMatch ? timeMatch[2] : "00";
+  raceDateIso = `${nextRace.isoDate}T${hh}:${mm}:00-03:00`;
+}
 ---
 
 <header class="hero" id="top">
@@ -18,22 +27,45 @@ const RACE_DATE = "2026-08-16T09:00:00-03:00";
         <a class="btn btn-ghost" href="#calculadora">Calcular mi ritmo</a>
       </div>
     </div>
-    <div class="next-race">
-      <span class="eyebrow">Próxima carrera</span>
-      <div class="next-race-name">5K Nordelta</div>
-      <div class="next-race-meta">5K · Nordelta, Buenos Aires</div>
-      <div class="countdown mono" id="countdown" data-target={RACE_DATE}>
-        <div><span class="num" id="cd-days">--</span><span class="lbl"
-            >Días</span
-          ></div>
-        <div><span class="num" id="cd-hours">--</span><span class="lbl"
-            >Horas</span
-          ></div>
-        <div><span class="num" id="cd-min">--</span><span class="lbl"
-            >Min</span
-          ></div>
-      </div>
-    </div>
+    {
+      nextRace ? (
+        <a class="next-race" href={`/calendario/${nextRace.slug}`}>
+          <span class="eyebrow">Próxima carrera</span>
+          <div class="next-race-name">{nextRace.name}</div>
+          <div class="next-race-meta">
+            {nextRace.distances} · {nextRace.city}
+          </div>
+          <div class="countdown mono" id="countdown" data-target={raceDateIso}>
+            <div>
+              <span class="num" id="cd-days">
+                --
+              </span>
+              <span class="lbl">Días</span>
+            </div>
+            <div>
+              <span class="num" id="cd-hours">
+                --
+              </span>
+              <span class="lbl">Horas</span>
+            </div>
+            <div>
+              <span class="num" id="cd-min">
+                --
+              </span>
+              <span class="lbl">Min</span>
+            </div>
+          </div>
+        </a>
+      ) : (
+        <a class="next-race" href="/calendario">
+          <span class="eyebrow">Calendario</span>
+          <div class="next-race-name">Ver todas las carreras</div>
+          <div class="next-race-meta">
+            Por ahora no hay ninguna cargada más adelante
+          </div>
+        </a>
+      )
+    }
   </div>
 </header>
 
@@ -119,6 +151,7 @@ const RACE_DATE = "2026-08-16T09:00:00-03:00";
     flex-wrap: wrap;
   }
   .next-race {
+    display: block;
     position: relative;
     z-index: 2;
     background: var(--bg-raised);
@@ -129,6 +162,12 @@ const RACE_DATE = "2026-08-16T09:00:00-03:00";
     transform: rotate(-2.6deg);
     animation: stampIn 0.65s cubic-bezier(0.19, 1.32, 0.4, 1) both;
     animation-delay: 0.1s;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+  .next-race:hover {
+    transform: rotate(-2.6deg) translateY(-3px);
   }
   .next-race::before {
     content: "";

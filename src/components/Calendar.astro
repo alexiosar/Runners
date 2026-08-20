@@ -1,8 +1,9 @@
 ---
-import { races } from "../data/races";
+import { getUpcomingRaces } from "../data/races";
 
 // El home muestra solo las próximas 5 — el resto vive en /calendario.
-const preview = races.slice(0, 5);
+const upcoming = getUpcomingRaces();
+const preview = upcoming.slice(0, 5);
 ---
 
 <section class="block" id="calendario">
@@ -13,7 +14,7 @@ const preview = races.slice(0, 5);
         <h2 class="display">Próximas carreras</h2>
       </div>
       <a class="see-all" href="/calendario"
-        >Ver calendario completo ({races.length}) →</a
+        >Ver calendario completo ({upcoming.length}) →</a
       >
     </div>
     <div class="cal-table-wrap reveal">

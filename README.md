@@ -26,7 +26,8 @@ Abrí [`src/data/races.ts`](src/data/races.ts) y agregá un objeto nuevo al arra
 ```js
 {
   slug: "media-maraton-rosario", // define la URL: /calendario/media-maraton-rosario
-  date: "30 AGO",
+  date: "30 AGO", // como se muestra
+  isoDate: "2026-08-30", // YYYY-MM-DD real — de esto depende que la carrera desaparezca sola cuando pase
   name: "Media Maratón de Rosario",
   city: "Rosario, Santa Fe",
   distances: "10K · 21K",
@@ -48,15 +49,15 @@ Abrí [`src/data/races.ts`](src/data/races.ts) y agregá un objeto nuevo al arra
 },
 ```
 
-`slug`, `lat`/`lng` e `infoUrl` son obligatorios — son los que arman la ficha individual (`/calendario/[slug].astro`, generada automáticamente por Astro con `getStaticPaths` a partir de este mismo array).
+`slug`, `isoDate`, `lat`/`lng` e `infoUrl` son obligatorios — `isoDate` es lo que arma la ficha individual (`/calendario/[slug].astro`, generada automáticamente por Astro con `getStaticPaths` a partir de este mismo array) y también lo que decide si la carrera sigue "vigente".
 
-Guardás y la carrera aparece sola en el preview del home, en `/calendario` y en su propia ficha — no hace falta tocar nada más. El orden de la lista es el orden en que se muestran, así que conviene mantenerlas ordenadas por fecha. El home solo toma las primeras 5 (`races.slice(0, 5)` en [Calendar.astro](src/components/Calendar.astro)), así que si agregás una carrera más próxima que las actuales, capaz desplaza a otra del preview — la sigue teniendo `/calendario` igual.
+Guardás y la carrera aparece sola en el preview del home, en `/calendario` y en su propia ficha — no hace falta tocar nada más ni ordenar el array a mano: `getUpcomingRaces()` (al final de [`races.ts`](src/data/races.ts)) filtra las que ya pasaron (comparando `isoDate` contra la fecha de hoy en build time) y ordena el resto por fecha. El home solo toma las primeras 5 de esa lista ya filtrada. Como esto se recalcula en cada build, alcanza con volver a deployar (o esperar el próximo push) para que una carrera que ya pasó desaparezca sola — no hay que borrarla a mano, aunque no está de más limpiar el array cada tanto para que no crezca para siempre.
 
 La lista base (fecha, ciudad, distancias, organizador) se relevó a mano desde un listado público de carreras de running en Argentina, usando el filtro "Todas" (no solo "Destacadas", que viene sesgado a Buenos Aires) y filtrando por provincia argentina real para que no se cuelen carreras de Chile/Uruguay/Brasil que a veces aparecen mezcladas ahí. Al 2026-08-07 el calendario cubre 14 provincias + CABA (Buenos Aires, Catamarca, Chubut, Córdoba, Mendoza, Misiones, Neuquén, Río Negro, Salta, San Luis, Santa Cruz, Santa Fe, Tierra del Fuego, Tucumán). Siguen sin ninguna carrera: Chaco, Corrientes, Entre Ríos, Formosa, Jujuy, La Pampa, La Rioja, San Juan y Santiago del Estero — esa fuente no tenía nada de running/trail publicado ahí al momento del relevamiento, no es que se hayan salteado a propósito. Los campos opcionales de cada ficha (largada exacta, retiro de kit, cifras de la última edición) se sacaron directo de la página oficial de cada carrera (el mismo link que va en `infoUrl`) — **no mostramos nada de valoraciones ni datos de terceros que no sean nuestros o del organizador**, solo hechos públicos y el link para inscribirse.
 
 Algunas carreras chicas no tienen web propia, así que `infoUrl` apunta a su Instagram (a veces incluso a un post puntual, no al perfil) — son links más frágiles que pueden vencer; si alguno ya no sirve, buscá el nombre de la carrera de nuevo en la fuente.
 
-> La tarjeta "Próxima carrera" del hero ([Hero.astro](src/components/Hero.astro)) muestra la misma carrera que la primera fila de la tabla — si agregás una carrera más próxima en el tiempo, actualizá también `RACE_DATE` y el texto de esa tarjeta ahí.
+> La tarjeta "Próxima carrera" del hero ([Hero.astro](src/components/Hero.astro)) también usa `getNextRace()` — no hay nada que sincronizar a mano ahí tampoco. Si en algún momento no queda ninguna carrera vigente cargada, la tarjeta cae a un link genérico a `/calendario` en vez de romperse.
 
 ## Cómo agregar una ruta local
 
@@ -93,7 +94,7 @@ Si agregás un plan nuevo, sumalo también al array `plans` en [`Plans.astro`](s
 
 Este es un sitio de contenido chico — si nadie lo toca, el calendario se pudre rápido. Cadencia acordada:
 
-- **Semanal (~10 min):** revisar fuentes de carreras por lo que se viene en los próximos 2-3 meses, sumar lo nuevo a `races.ts`, sacar o archivar lo que ya pasó. Commit + push (Cloudflare deploya solo).
+- **Semanal (~10 min):** revisar fuentes de carreras por lo que se viene en los próximos 2-3 meses y sumar lo nuevo a `races.ts` (con su `isoDate`). Las que ya pasaron se sacan solas de la home y de `/calendario` — no hace falta tocarlas. Commit + push (Cloudflare deploya solo).
 - **Mensual (más a fondo):** buscar específicamente carreras en las provincias que todavía no tienen ninguna (ver lista arriba), revisar que los `infoUrl` sigan funcionando (los que apuntan a Instagram son los más frágiles), sumar 1-2 rutas locales nuevas en `routes.ts`, y repasar si quedó algo a medio hacer.
 
 No hay scraping automatizado — la fuente de datos cambia de formato seguido y conviene curar a mano qué se suma. El flujo real es: pedirle a Claude que actualice el calendario con la frecuencia que se quiera.

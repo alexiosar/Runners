@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { races } from "../data/races";
+import { getUpcomingRaces } from "../data/races";
+
+const upcoming = getUpcomingRaces();
 ---
 
 <Layout
@@ -9,7 +11,7 @@ import { races } from "../data/races";
 >
   <header class="page-header">
     <div class="wrap">
-      <span class="eyebrow">Agenda · {races.length} carreras</span>
+      <span class="eyebrow">Agenda · {upcoming.length} carreras</span>
       <h1 class="display">Calendario completo</h1>
       <p>
         Todas las carreras que estamos siguiendo, ordenadas por fecha.
@@ -34,7 +36,7 @@ import { races } from "../data/races";
           </thead>
           <tbody>
             {
-              races.map((r) => (
+              upcoming.map((r) => (
                 <tr>
                   <td class="date mono">{r.date}</td>
                   <td class="race-name">
@@ -54,8 +56,9 @@ import { races } from "../data/races";
       </div>
       <p class="source-note">
         Calendario actualizado a mano el 2026-08-07, con carreras de todo el
-        país. Tocá el nombre de una carrera para ver su ficha completa, con
-        mapa y el link oficial de inscripción.
+        país — las que ya pasaron se sacan solas de esta lista. Tocá el
+        nombre de una carrera para ver su ficha completa, con mapa y el link
+        oficial de inscripción.
       </p>
     </div>
   </section>

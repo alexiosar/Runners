@@ -13,7 +13,11 @@ export interface RaceStats {
 
 export interface Race {
   slug: string;
+  /** Fecha para mostrar, ej. "16 AGO" o "19 ABR '27". */
   date: string;
+  /** Fecha real en formato YYYY-MM-DD — la usan getUpcomingRaces/getNextRace
+   * para ordenar y para saber qué ya pasó. Actualizala si cambia `date`. */
+  isoDate: string;
   endDate?: string;
   name: string;
   city: string;
@@ -35,6 +39,7 @@ export const races: Race[] = [
   {
     slug: "5k-nordelta",
     date: "16 AGO",
+    isoDate: "2026-08-16",
     name: "5K Nordelta",
     city: "Nordelta, Buenos Aires",
     distances: "5K",
@@ -49,6 +54,7 @@ export const races: Race[] = [
   {
     slug: "media-maraton-buenos-aires",
     date: "23 AGO",
+    isoDate: "2026-08-23",
     name: "Media Maratón de Buenos Aires",
     city: "Palermo, CABA",
     distances: "21K",
@@ -69,6 +75,7 @@ export const races: Race[] = [
   {
     slug: "maraton-puente-rosario-victoria",
     date: "30 AGO",
+    isoDate: "2026-08-30",
     name: "Maratón del Puente Rosario-Victoria",
     city: "Rosario, Santa Fe",
     distances: "10K · 14K · 21K",
@@ -81,6 +88,7 @@ export const races: Race[] = [
   {
     slug: "maraton-solidaria-siglo-21",
     date: "06 SEP",
+    isoDate: "2026-09-06",
     name: "Maratón Solidaria Siglo 21",
     city: "Córdoba, Córdoba",
     distances: "2K · 5K · 10K",
@@ -93,6 +101,7 @@ export const races: Race[] = [
   {
     slug: "destino-madryn",
     date: "06 SEP",
+    isoDate: "2026-09-06",
     name: "Destino Madryn",
     city: "Puerto Madryn, Chubut",
     distances: "6K · 15K · 25K · 35K · 50K",
@@ -105,6 +114,7 @@ export const races: Race[] = [
   {
     slug: "asics-k21-villa-pehuenia",
     date: "06 SEP",
+    isoDate: "2026-09-06",
     name: "ASICS K21 Villa Pehuenia",
     city: "Villa Pehuenia, Neuquén",
     distances: "10K · 21K",
@@ -117,6 +127,7 @@ export const races: Race[] = [
   {
     slug: "extremo-tucuman-tafi",
     date: "19 SEP",
+    isoDate: "2026-09-19",
     name: "Extremo Tucumán - Tafí",
     city: "Tafí del Valle, Tucumán",
     distances: "6K · 10K · 21K · 30K · 45K · 75K",
@@ -130,6 +141,7 @@ export const races: Race[] = [
   {
     slug: "maraton-internacional-buenos-aires",
     date: "20 SEP",
+    isoDate: "2026-09-20",
     name: "Maratón Internacional de Buenos Aires",
     city: "Palermo, CABA",
     distances: "42K",
@@ -149,6 +161,7 @@ export const races: Race[] = [
   {
     slug: "puma-10k-san-isidro",
     date: "04 OCT",
+    isoDate: "2026-10-04",
     name: "Puma 10K San Isidro",
     city: "San Isidro, Buenos Aires",
     distances: "10K",
@@ -161,6 +174,7 @@ export const races: Race[] = [
   {
     slug: "qhapaqnan-trail",
     date: "09 OCT",
+    isoDate: "2026-10-09",
     name: "Qhapaqñan Trail",
     city: "Cafayate, Salta",
     distances: "9K · 15K · 22K · 42K",
@@ -173,6 +187,7 @@ export const races: Race[] = [
   {
     slug: "media-maraton-3-fronteras",
     date: "11 OCT",
+    isoDate: "2026-10-11",
     name: "Media Maratón Internacional de las 3 Fronteras",
     city: "Puerto Iguazú, Misiones",
     distances: "10.5K · 21K",
@@ -186,6 +201,7 @@ export const races: Race[] = [
   {
     slug: "ultra-fitz-roy",
     date: "15 OCT",
+    isoDate: "2026-10-15",
     name: "Ultra Fitz Roy",
     city: "El Chaltén, Santa Cruz",
     distances: "10K · 21K · 42K · 70K · 100K",
@@ -198,6 +214,7 @@ export const races: Race[] = [
   {
     slug: "saucony-baires-15k",
     date: "18 OCT",
+    isoDate: "2026-10-18",
     name: "Saucony Baires 15K",
     city: "Palermo, CABA",
     distances: "5K · 15K",
@@ -211,6 +228,7 @@ export const races: Race[] = [
   {
     slug: "potrero-corre",
     date: "07 NOV",
+    isoDate: "2026-11-07",
     name: "Potrero Corre",
     city: "Potrero de los Funes, San Luis",
     distances: "3K · 6K · 12K · 22K · 42K",
@@ -223,6 +241,7 @@ export const races: Race[] = [
   {
     slug: "nb-media-maraton-mar-del-plata",
     date: "08 NOV",
+    isoDate: "2026-11-08",
     name: "NB Media Maratón de Mar del Plata",
     city: "Mar del Plata, Buenos Aires",
     distances: "5K · 10K · 21K",
@@ -236,6 +255,7 @@ export const races: Race[] = [
   {
     slug: "ushuaia-epic-trail",
     date: "22 NOV",
+    isoDate: "2026-11-22",
     name: "Ushuaia EPIC - Trail Running",
     city: "Ushuaia, Tierra del Fuego",
     distances: "16K",
@@ -248,6 +268,7 @@ export const races: Race[] = [
   {
     slug: "adidas-10k-night-run",
     date: "28 NOV",
+    isoDate: "2026-11-28",
     name: "Adidas 10K Night Run",
     city: "Puerto Madero, CABA",
     distances: "10K",
@@ -260,6 +281,7 @@ export const races: Race[] = [
   {
     slug: "el-cruce-saucony",
     date: "05 DIC",
+    isoDate: "2026-12-05",
     endDate: "11 DIC",
     name: "El Cruce Saucony",
     city: "San Carlos de Bariloche, Río Negro",
@@ -276,6 +298,7 @@ export const races: Race[] = [
   {
     slug: "fiambala-desert-trail",
     date: "19 ABR '27",
+    isoDate: "2027-04-19",
     name: "Fiambalá Desert Trail",
     city: "Fiambalá, Catamarca",
     distances: "10K · 21K · 35K · 50K · 100K (por etapas)",
@@ -288,6 +311,7 @@ export const races: Race[] = [
   {
     slug: "maraton-de-mendoza",
     date: "02 MAY '27",
+    isoDate: "2027-05-02",
     name: "Maratón de Mendoza",
     city: "Mendoza, Mendoza",
     distances: "42K",
@@ -298,3 +322,20 @@ export const races: Race[] = [
     infoUrl: "https://www.instagram.com/reels/DZf51pJlhku/",
   },
 ];
+
+/**
+ * Carreras cuya fecha todavía no pasó, ordenadas por fecha. Se calcula en
+ * build time (el sitio es estático) — cada rebuild/deploy recalcula esto,
+ * así que ya no hay que sacar carreras pasadas a mano ni sincronizar el
+ * hero con la primera fila de la tabla.
+ */
+export function getUpcomingRaces(today: Date = new Date()): Race[] {
+  const todayIso = today.toISOString().slice(0, 10);
+  return races
+    .filter((r) => r.isoDate >= todayIso)
+    .sort((a, b) => a.isoDate.localeCompare(b.isoDate));
+}
+
+export function getNextRace(today?: Date): Race | undefined {
+  return getUpcomingRaces(today)[0];
+}
