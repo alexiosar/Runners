@@ -97,6 +97,9 @@ export const races: Race[] = [
     lat: -31.43012,
     lng: -64.1843,
     infoUrl: "https://misiondxt.com/2026-2/",
+    startPoint: "De los Latinos 8555, Córdoba",
+    highlights:
+      "Con el lema «Corramos juntos por la salud y la infancia» — maratón solidaria a beneficio de causas de salud infantil.",
   },
   {
     slug: "destino-madryn",
@@ -107,9 +110,13 @@ export const races: Race[] = [
     distances: "6K · 15K · 25K · 35K · 50K",
     tag: "Trail",
     organizer: "Eduardo Ruiz",
-    lat: -42.64032,
-    lng: -64.96333,
+    lat: -42.8461081,
+    lng: -64.8970453,
     infoUrl: "https://www.destinomadryncarreradeaventura.com/",
+    startPoint: "Estancia San Guillermo",
+    contact: "280 460 1405 · destinomadryn@gmail.com",
+    highlights:
+      "Se corre por acantilados y playas patagónicas en plena temporada de ballenas — combina senderos exigentes con tramos de costa.",
   },
   {
     slug: "asics-k21-villa-pehuenia",
@@ -197,11 +204,17 @@ export const races: Race[] = [
     lng: -54.57437,
     infoUrl:
       "https://hotelcolonialfoz.com.br/es/media-maraton-de-las-tres-fronteras-2026/",
+    startPoint:
+      "Municipalidad de Ciudad del Este, Paraguay (la llegada es en Puerto Iguazú, frente al Monumento a las Tres Fronteras)",
+    contact: "Hotel Colonial Iguazú · +55 0800 819 1993",
+    highlights:
+      "Cruza Paraguay, Brasil y Argentina en un solo recorrido, pasando por el Puente de la Amistad y el Puente Tancredo Neves antes de llegar a Puerto Iguazú. La distancia de 10.5K larga desde Foz do Iguaçu (Brasil).",
   },
   {
     slug: "ultra-fitz-roy",
     date: "15 OCT",
     isoDate: "2026-10-15",
+    endDate: "17 OCT",
     name: "Ultra Fitz Roy",
     city: "El Chaltén, Santa Cruz",
     distances: "10K · 21K · 42K · 70K · 100K",
@@ -210,6 +223,10 @@ export const races: Race[] = [
     lat: -49.33158,
     lng: -72.88644,
     infoUrl: "https://ultrafitzroy.com/",
+    kitPickup:
+      "Acreditación presencial 15 y 16 de octubre — se saca turno ingresando el DNI en la web.",
+    highlights:
+      "Filosofía de bajo impacto ambiental: dejar basura en el circuito es motivo de descalificación. En los tramos más largos hay pocos puestos de asistencia — se toma agua de deshielo en el camino.",
   },
   {
     slug: "saucony-baires-15k",
@@ -251,6 +268,11 @@ export const races: Race[] = [
     lng: -57.54494,
     infoUrl:
       "https://www.newbalance.com.ar/21k-mar-de-plata-2026/race-series-mdp-21k.html",
+    startPoint: "Playa Grande — Guardavidas Guillermo Volpe y Primera Junta",
+    startTime: "7:00 hs",
+    kitPickup:
+      "Viernes 6/11 y sábado 7/11 (lugar a confirmar). Hace falta apto médico vigente (no más de 1 año), DNI/pasaporte y el comprobante de inscripción (Eventick).",
+    highlights: "El kit incluye remera técnica New Balance y medalla finisher.",
   },
   {
     slug: "ushuaia-epic-trail",
@@ -264,6 +286,9 @@ export const races: Race[] = [
     lat: -54.72418,
     lng: -68.017,
     infoUrl: "https://ushuaiaepic.com.ar/",
+    contact: "@ushuaiaepic en Instagram",
+    highlights:
+      "Es uno de los circuitos de un fin de semana multideporte más grande (también hay mountain bike) del 20 al 22 de noviembre — se presenta como la carrera más austral del mundo. La edición 2025 tuvo alrededor de 450 participantes.",
   },
   {
     slug: "adidas-10k-night-run",
